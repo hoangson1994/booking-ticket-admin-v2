@@ -1,0 +1,18 @@
+<div nz-row [nzGutter]="8" nzType="flex">
+  <div nz-col [nzMd]="8" *ngFor="let data of datas">
+    <nz-card
+      [nzTitle]="'Chuyến ' + parseOffsetMlsToTime(data.timeStart) + ' - ' + parseOffsetMlsToTime(data.timeEnd) "
+      [nzLoading]="loading"
+    >
+      <div *ngIf="data.voyages">
+        <ng-container *ngFor="let voyage of data.voyages">
+          <p class="list-card" (click)="showModal(data, voyage)">
+            <strong>{{voyage.name}}</strong>
+          </p>
+        </ng-container>
+      </div>
+    </nz-card>
+
+  </div>
+</div>
+

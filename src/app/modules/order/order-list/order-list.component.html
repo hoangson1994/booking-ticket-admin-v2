@@ -1,0 +1,60 @@
+<nz-spin [nzSpinning]="isLoading">
+    <nz-card>
+        <nz-table [nzData]="datas"
+                  [nzShowPagination]="false"
+                  nzSize="small"
+                  nzFrontPagination="false" [nzBordered]="true"
+                  [nzScroll]="{x: '800px'}">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Khách hàng</th>
+                <th>Lịch</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of datas; let i = index">
+                <td>{{i+1}}</td>
+                <td>
+<!--                    <a [routerLink]="['/' + eRouters.customers, eRouters.edit]"-->
+<!--                       [queryParams]="{id: data.customer_id}"-->
+<!--                    >-->
+<!--                        {{data.customer?.name + ' - ' + data.customer?.phone_number}}-->
+<!--                    </a>-->
+                    {{data.customer?.name + ' - ' + data.customer?.phoneNumber}}
+                </td>
+                <td>
+                    <a [routerLink]="['/' + eRouters.schedules, eRouters.edit]"
+                       [queryParams]="{id: data.scheduleId}"
+                    >
+                        <span class="color-warning">{{(data.schedule?.driver?.name || 'K.Lái') }}</span>
+                        &nbsp;| {{data.schedule?.voyage?.name}} |&nbsp;
+                        <span class="color-danger">{{parseDate(data?.schedule?.startTime)}}</span>
+                    </a>
+                </td>
+                <td>{{data.finalPrice}}</td>
+                <td [class.color-success]="data.status === orderStatus.Active"
+                    [class.color-danger]="data.status === orderStatus.InActive"
+                >{{data.status === orderStatus.Active ? 'Thành công' : 'Hủy'}}</td>
+                <td>
+                    <ng-container>
+                        <a nz-button nzSize="small"
+                           class="mr-1 mb-1"
+                           [routerLink]="['/' + eRouters.orders, eRouters.edit]"
+                           [queryParams]="{id: data.id}"
+                        >
+                            <i nz-icon type="edit"></i>
+                        </a>
+                    </ng-container>
+                </td>
+            </tr>
+            </tbody>
+        </nz-table>
+
+    </nz-card>
+</nz-spin>
+
+

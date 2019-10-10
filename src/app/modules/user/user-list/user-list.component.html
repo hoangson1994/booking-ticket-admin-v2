@@ -1,0 +1,58 @@
+<nz-spin [nzSpinning]="isLoding">
+  <nz-card>
+    <nz-table
+      [nzData]="datas"
+      [nzShowPagination]="false"
+      nzFrontPagination="false"
+      [nzBordered]="true"
+      [nzScroll]="{x: '800px'}"
+      nzSize="small"
+      class="mt-2">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Tên</th>
+        <th>Email</th>
+        <th>Địa chỉ</th>
+        <th>Số điện thoại</th>
+        <th>Trạng thái</th>
+        <th>Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of datas; let i = index">
+        <td>{{i + 1}}</td>
+
+        <td>{{data.name}}</td>
+
+        <td>{{data.email}}</td>
+
+        <td>{{data.address}}</td>
+
+        <td>{{data.phoneNumber}}</td>
+
+        <td [className]="data.status === userStatus.active ? 'color-success' : 'color-danger'">
+          {{data.status === userStatus.active ? 'Hoạt động' : 'Không hoạt động'}}
+        </td>
+
+        <td>
+          <a nz-button nzSize="small"
+             class="mr-1 mb-1"
+             [routerLink]="['/user/edit-user/',data.id]">
+            <!--             [queryParams]="{id: data.id}"-->
+            <i nz-icon type="edit"></i>Sửa</a>
+
+          <a nz-popconfirm
+             nz-button nzSize="small" nzType="danger"
+             [nzTitle]="'Bạn chắc chắn muốn xóa banner này?'"
+             (nzOnConfirm)="deleteUser(i)"
+             *ngIf="data.status !== userStatus.inactive"
+          >
+            <i nz-icon [type]="data.isDeleting ? 'loading' : 'delete'"></i> Xóa
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+</nz-spin>

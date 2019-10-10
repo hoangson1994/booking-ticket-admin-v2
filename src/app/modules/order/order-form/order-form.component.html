@@ -1,0 +1,217 @@
+
+
+<!--  <div nz-col [nzMd]="12">-->
+<!--    <nz-tabset nzSize="large">-->
+<!--      <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name.toString()">-->
+<!--        <nz-spin [nzSpinning]="isLoding">-->
+<!--          <section>-->
+<!--            <nz-table-->
+<!--              [nzData]="datasSchedule"-->
+<!--              [nzShowPagination]="false"-->
+<!--              nzFrontPagination="false"-->
+<!--              [nzBordered]="true"-->
+<!--            >-->
+<!--              <thead>-->
+<!--              <tr>-->
+<!--                <th>Tài xế</th>-->
+<!--                <th>Biển số xe</th>-->
+<!--              </tr>-->
+<!--              </thead>-->
+<!--              <tbody>-->
+<!--              <tr *ngFor="let data of datasSchedule; let i = index">-->
+<!--                <td>{{data.driver.name}}</td>-->
+<!--                <td>{{data.voyage.name}}</td>-->
+<!--              </tr>-->
+<!--              </tbody>-->
+<!--            </nz-table>-->
+<!--          </section>-->
+<!--        </nz-spin>-->
+<!--      </nz-tab>-->
+<!--    </nz-tabset>-->
+<!--  </div>-->
+
+
+  <section nz-row nzType="flex">
+    <form nz-form class="w-100" [formGroup]="orderForm" (ngSubmit)="onSubmit()" >
+      <div nz-row [nzGutter]="4">
+        <div nz-col [nzXs]="24" [nzMd]="12">
+          <ng-container *ngIf="orderForm.get('customerName') as customerName">
+            <nz-form-item>
+              <nz-form-label><strong>Tên khách hàng</strong></nz-form-label>
+              <nz-form-control [nzErrorTip]="customerNameValidate">
+                <input type="text" [formControl]="customerName" nz-input class="w-100"
+                       placeholder="Nhập tên khách hàng"/>
+              </nz-form-control>
+              <ng-template #customerNameValidate>
+                Hãy nhập tên khách hàng
+              </ng-template>
+            </nz-form-item>
+          </ng-container>
+        </div>
+
+        <div nz-col [nzXs]="24" [nzMd]="12">
+          <ng-container *ngIf="orderForm.get('phoneNumber') as phoneNumber">
+            <nz-form-item>
+              <nz-form-label><strong>SDT khách hàng</strong></nz-form-label>
+              <nz-form-control [nzErrorTip]="phoneNumberValidate">
+                <input type="text" nz-input class="w-100" [formControl]="phoneNumber"
+                       placeholder="Nhập số điện thoại khách hàng"/>
+              </nz-form-control>
+              <ng-template #phoneNumberValidate>
+                Hãy nhập số điện thoại/tên khách hàng
+              </ng-template>
+            </nz-form-item>
+          </ng-container>
+        </div>
+
+        <div nz-col [nzMd]="12">
+          <ng-container *ngIf="orderForm.get('scheduleId') as scheduleId">
+            <nz-form-item>
+              <nz-form-label><strong>Lịch</strong></nz-form-label>
+              <app-schedule-selector [formControl]="scheduleId"
+                                     [voyage_id]="voyageId"
+                                     [date]="date"
+                                     (emitSchedule)="getSchedule($event)"
+                                     [schedule_template_id]="scheduleTemplateId"
+              ></app-schedule-selector>
+            </nz-form-item>
+          </ng-container>
+        </div>
+
+        <div nz-col [nzXs]="24" [nzMd]="12">
+          <ng-container *ngIf="orderForm.get('paidStatus') as paidStatus">
+            <nz-form-item>
+              <nz-form-label><strong>Trạng thái thanh toán</strong></nz-form-label>
+              <nz-form-control [nzErrorTip]="paidStatusValidate">
+                <nz-select nzPlaceHolder="Chọn trạng thái" class="w-100" [formControl]="paidStatus">
+                  <ng-container *ngFor="let status of orderPaidOptions">
+                    <nz-option
+                               [nzValue]="status.key"
+                               [nzLabel]="status.value | translate"
+                    ></nz-option>
+                  </ng-container>
+                </nz-select>
+              </nz-form-control>
+              <ng-template #paidStatusValidate>
+                Hãy nhập số điện thoại/tên khách hàng
+              </ng-template>
+            </nz-form-item>
+          </ng-container>
+        </div>
+      </div>
+
+
+      <div nz-row nzGutter="6">
+        <ng-container *ngIf="helper.getAsFormArray(orderForm, 'orderDetailRequest') as orderDetailRequest">
+          <nz-collapse>
+            <ng-container formArrayName="orderDetailRequest"
+                          *ngFor="let orderDetailRequestControl of orderDetailRequest.controls; let i = index">
+
+              <nz-collapse-panel
+                      [nzHeader]="'Chi tiết ' + (i + 1)"
+                      [nzActive]="true"
+                      [formGroupName]="i"
+                      [nzExtra]="extraTemplate"
+              >
+
+                <input type="hidden"
+                       nz-input
+                       class="w-100"
+                       [(ngModel)]="vehicleCategoryId"
+                       [formControl]="orderDetailRequestControl.get('vehicleCategoryId')"
+                       placeholder="Nhập số điện thoại khách hàng"/>
+
+                <div nz-col [nzXs]="24" [nzMd]="12">
+                  <nz-form-item *ngIf="orderDetailRequestControl.get('travelFromId') as travelFromId">
+                    <nz-form-label>Điểm đi <strong class="color-danger">*</strong></nz-form-label>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="travelFromIdValidateTip">
+                      <app-travel-from-selector [datas]="canChooseFromVoyagePart()"
+                                              (valChange)="takeVoyagePartFrom($event, i)"
+                      ></app-travel-from-selector>
+                      <ng-template #travelFromIdValidateTip>
+                        Hãy chọn điểm đi
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div nz-col [nzXs]="24" [nzMd]="12">
+                  <nz-form-item *ngIf="orderDetailRequestControl.get('travelToId') as travelToId">
+                    <nz-form-label>Điểm đến <strong class="color-danger">*</strong></nz-form-label>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="travelToIdValidateTip">
+                      <app-travel-to-selector [datas]="canChooseToVoyagePart()"
+                                                (valChange)="takeVoyagePartTo($event, i)"
+                      ></app-travel-to-selector>
+                      <ng-template #travelToIdValidateTip>
+                        Hãy chọn điểm đến
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div nz-col [nzXs]="24" [nzMd]="12">
+                  <nz-form-item *ngIf="orderDetailRequestControl.get('quantity') as quantity">
+                    <nz-form-label>Số khách <strong class="color-danger">*</strong></nz-form-label>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="quantityValidateTip">
+                      <nz-input-number [nzPlaceHolder]="'Số khách'"
+                                       [nzMin]="0"
+                                       class="w-100"
+                                       [formControl]="quantity">
+
+                      </nz-input-number>
+                      <ng-template #quantityValidateTip>
+                        Hãy chọn số lượng
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div nz-col [nzXs]="24" [nzMd]="12">
+                  <nz-form-item *ngIf="orderDetailRequestControl.get('customerTypeId') as customerTypeId">
+                    <nz-form-label>Kiểu khách hàng <strong class="color-danger">*</strong></nz-form-label>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="customerTypeIdValidateTip">
+                      <app-customer-type-selector [formControl]="customerTypeId"></app-customer-type-selector>
+                      <ng-template #customerTypeIdValidateTip>
+                        Hãy chọn điểm đến
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </nz-collapse-panel>
+              <ng-template #extraTemplate>
+                <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeItem(i)"></i>
+              </ng-template>
+            </ng-container>
+          </nz-collapse>
+        </ng-container>
+
+        <div nz-col [nzXs]="24">
+          <nz-form-item style="margin-top: 2em">
+            <nz-form-control>
+              <button nz-button class="w-50" type="button" (click)="tamTinh()" style="margin-right: 1em">
+                Tạm tính
+              </button>
+
+              <p style="display: inline; margin-left: 40px" *ngIf="tempPrice">Tiền: {{tempPrice}}</p>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzXs]="24">
+          <nz-form-item style="margin-top: 2em">
+            <nz-form-control>
+              <button nz-button class="w-50" type="button" (click)="addRecord()" style="margin-right: 1em">
+                Thêm vé
+              </button>
+              <button nz-button
+                      nzType="primary"
+                      class="w-50"
+                      [nzLoading]="isLoading"><i nz-icon type="save"></i>Lưu
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+      </div>
+    </form>
+  </section>

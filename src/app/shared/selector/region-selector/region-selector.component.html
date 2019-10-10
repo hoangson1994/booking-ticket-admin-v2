@@ -1,0 +1,13 @@
+<nz-tree-select
+        class="w-100"
+        nzPlaceHolder="Hãy chọn địa điểm"
+        [nzShowSearch]="true"
+        [nzDropdownMatchSelectWidth]="true"
+        [nzDropdownStyle]="{ 'max-height': '300px' }"
+        [(ngModel)]="model"
+        [ngModelOptions]="{standalone: true}"
+        [nzNodes]="nodes"
+        [nzAsyncData]="true"
+        (nzExpandChange)="onExpandChange($event)"
+>
+</nz-tree-select>

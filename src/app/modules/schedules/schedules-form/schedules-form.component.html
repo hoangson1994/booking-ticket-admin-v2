@@ -1,0 +1,117 @@
+<nz-card nzTitle="Tạo lịch">
+  <section nz-row nzType="flex" nzJustify="center">
+    <div nz-col [nzXXl]="14" [nzXl]="14" [nzLg]="16" [nzMd]="20" [nzSm]="22" [nzXs]="24">
+      <form [formGroup]="form" nz-form>
+        <div nz-row [nzGutter]="8">
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('driverId') as driverId">
+              <nz-form-item>
+                <nz-form-label><strong>Tên nhân viên</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="driverNameValidate">
+                  <app-user-selector [formControl]="driverId">
+
+                  </app-user-selector>
+                </nz-form-control>
+                <ng-template #driverNameValidate>
+                  Hãy nhập tên nhân viên
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('vehicleCategoryId') as vehicleCategoryId">
+              <nz-form-item nz-col [nzMd]="12">
+                <nz-form-label><strong>Nhóm xe</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="vehicleCtValidate">
+                  <app-vehicle-category-selector [formControl]="vehicleCategoryId">
+                  </app-vehicle-category-selector>
+                </nz-form-control>
+                <ng-template #vehicleCtValidate>
+                  Hãy nhập nhóm xe
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('vehicleId') as vehicleId">
+              <nz-form-item nz-col [nzMd]="12">
+                <nz-form-label><strong>Tên xe</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="vehicleValidate">
+                  <app-vehicle-selector [formControl]="vehicleId">
+                  </app-vehicle-selector>
+                </nz-form-control>
+                <ng-template #vehicleValidate>
+                  Hãy nhập tên xe
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('scheduleTemplateId') as scheduleTemplateId">
+              <nz-form-item nz-col [nzMd]="12">
+                <nz-form-label><strong>Mẫu lịch</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="stValidate">
+                  <app-schedule-template-selector [formControl]="scheduleTemplateId">
+
+                  </app-schedule-template-selector>
+                </nz-form-control>
+                <ng-template #stValidate>
+                  Hãy nhập mẫu lịch
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('voyageId') as voyageId">
+              <nz-form-item nz-col [nzMd]="12">
+                <nz-form-label><strong>Tuyến đường</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="voyageValidate">
+                  <app-voyage-selector [formControl]="voyageId"
+                                       mode="default"
+                                       [disabled]="true"
+                                       [scheduleTemplateId]="form.get('scheduleTemplateId').value">
+
+                  </app-voyage-selector>
+                </nz-form-control>
+                <ng-template #voyageValidate>
+                  Hãy nhập tuyến đường
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('scheduleDate') as scheduleDate">
+              <nz-form-item>
+                <nz-form-label><strong>Thời gian</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="sdValidate">
+                  <app-custom-datepicker [dateControl]="scheduleDate" [dateInput]="selectedSchedule.startTime"></app-custom-datepicker>
+                </nz-form-control>
+                <ng-template #sdValidate>
+                  Hãy nhập thời gian
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+        </div>
+
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button
+                    class="login-form-button w-100"
+                    [nzType]="'primary'"
+                    (click)="isSubmit ? onSubmit() : onEdit()"
+                    [disabled]="isPost"
+            >Lưu
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+  </section>
+</nz-card>

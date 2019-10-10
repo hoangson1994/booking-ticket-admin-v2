@@ -1,0 +1,13 @@
+<nz-select class="w-100"
+           [(ngModel)]="model"
+           nzPlaceHolder="Tìm kiếm và chọn nhóm xe"
+           nzShowSearch
+           nzAllowClear
+>
+  <ng-container *ngFor="let vc of datas">
+    <nz-option [nzValue]="vc.id"
+               [nzLabel]="vc.name"
+    ></nz-option>
+  </ng-container>
+
+</nz-select>

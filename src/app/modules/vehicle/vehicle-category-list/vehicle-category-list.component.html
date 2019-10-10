@@ -1,0 +1,52 @@
+<nz-spin [nzSpinning]="isLoading">
+  <nz-card>
+    <nz-table [nzData]="datas"
+              [nzShowPagination]="false"
+              nzFrontPagination="false"
+              [nzBordered]="true"
+              [nzScroll]="{x: '800px'}"
+              nzSize="small"
+              class="mt-2"
+    >
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Tên nhóm xe</th>
+        <th>Số chỗ ngồi</th>
+        <th>Giá</th>
+        <th>Trạng thái</th>
+        <th>Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of datas; let i = index">
+        <td>{{i + 1}}</td>
+        <td>{{data.name}}</td>
+        <td>{{data.seatQuantity}}</td>
+        <td>{{data.price}}</td>
+        <td [className]="data.status === vehicleCategoryStatus.active ? 'color-success' : 'color-danger'">
+          {{data.status === vehicleCategoryStatus.active ? 'Hoạt động' : 'Không hoạt động'}}
+        </td>
+        <td>
+          <a nz-button nzSize="small"
+             class="mr-1 mb-1"
+             [routerLink]="['/vehicles/edit-vehicle-category/',data.id]">
+            <!--             [queryParams]="{id: data.id}"-->
+            <!--          >-->
+            <i nz-icon type="edit"></i>Sửa</a>
+
+          <a nz-popconfirm
+             nz-button nzSize="small" nzType="danger"
+             [nzTitle]="'Bạn chắc chắn muốn xóa banner này?'"
+             (nzOnConfirm)="delete(i)"
+             *ngIf="data.status !== vehicleCategoryStatus.inactive"
+          >
+            <i nz-icon [type]="data.isDeleting ? 'loading' : 'delete'"></i> Xóa
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+
+  </nz-card>
+</nz-spin>

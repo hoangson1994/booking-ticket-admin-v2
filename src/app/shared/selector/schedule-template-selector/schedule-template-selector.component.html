@@ -1,0 +1,13 @@
+<nz-select class="w-100offsetMls"
+           [(ngModel)]="model"
+           nzPlaceHolder="Chọn mẫu lịch"
+           nzShowSearch
+           nzAllowClear
+>
+  <ng-container *ngFor="let data of datas">
+    <nz-option [nzValue]="data.id"
+               [nzLabel]="parseOffsetMlsToTime(data.timeStart) +' - '+ parseOffsetMlsToTime(data.timeEnd)"
+    ></nz-option>
+  </ng-container>
+
+</nz-select>

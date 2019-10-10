@@ -1,0 +1,65 @@
+<nz-spin [nzSpinning]="isLoading">
+  <nz-card>
+    <nz-table
+      [nzData]="datas"
+      [nzShowPagination]="false"
+      nzFrontPagination="false"
+      [nzBordered]="true"
+      [nzScroll]="{x: '800px'}"
+      nzSize="small"
+      class="mt-2"
+    >
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Tên tài xế</th>
+        <th>Tên xe</th>
+        <th>Loại xe</th>
+        <th>Thời gian bắt đầu</th>
+        <th>Thời gian kết thúc</th>
+        <th>Tuyến đường</th>
+        <th>Trạng thái</th>
+        <th>Thao tác</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of datas; let i = index">
+        <td>{{i + 1}}</td>
+
+        <td>{{data.driver?.name}}</td>
+
+        <td>{{data.vehicle?.name}}</td>
+
+        <td>{{data.vehicleCategory?.name}}</td>
+
+        <td>{{parseMlsToTime(data.startTime)}}</td>
+        <td>{{parseMlsToTime(data.endTime)}}</td>
+
+        <td>{{data.voyage?.name}}</td>
+        <td [className]="data.status === scheduleStatus.active ? 'color-success' : 'color-danger'">
+          {{data.status === scheduleStatus.active ? 'Hoạt động' : 'Không hoạt động'}}
+        </td>
+
+        <td>
+          <a nz-button nzSize="small"
+             class="mr-1 mb-1"
+             [routerLink]="['/schedules/edit-schedule/']"
+             [queryParams]="{id: data.id}"
+          >
+
+            <i nz-icon type="edit"></i>Sửa</a>
+
+          <a nz-popconfirm
+             nz-button nzSize="small" nzType="danger"
+             [nzTitle]="'Bạn chắc chắn muốn xóa banner này?'"
+             (nzOnConfirm)="deleteSchedule(i)"
+             *ngIf="data.status !== scheduleStatus.inactive"
+          >
+            <i nz-icon [type]="data.isDeleting ? 'loading' : 'delete'"></i> Xóa
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+</nz-spin>

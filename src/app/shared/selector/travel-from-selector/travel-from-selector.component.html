@@ -1,0 +1,10 @@
+<nz-select nzPlaceHolder="Điểm đi"
+           [(ngModel)]="from" class="w-100 mt-1"
+           (ngModelChange)="takeVoyageAndEmitEvent()"
+           nzAllowClear
+           *ngIf="datas">
+    <nz-option *ngFor="let voyageFrom of datas"
+               [nzLabel]="voyageFrom.fromName"
+               [nzValue]="voyageFrom"
+    ></nz-option>
+</nz-select>

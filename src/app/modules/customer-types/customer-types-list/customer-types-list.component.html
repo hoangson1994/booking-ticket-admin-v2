@@ -1,0 +1,44 @@
+<nz-spin [nzSpinning]="isLoading">
+    <nz-card nzTitle="Danh sách kiểu khách hàng">
+        <nz-table [nzData]="datas"
+                  [nzShowPagination]="false"
+                  nzFrontPagination="false"
+                  [nzBordered]="true"
+                  [nzScroll]="{x: '800px'}"
+                  nzSize="small"
+        >
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Tên</th>
+                <th>Ưu đãi</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of datas; let i = index">
+                <td>{{data.id}}</td>
+                <td>{{data.name}}</td>
+                <td>{{data.discount}} %</td>
+                <td [class.color-success]="data.status === statuses.Active"
+                    [class.color-danger]="data.status === statuses.Inactive"
+                >{{statuses[data.status] | translate}}</td>
+                <td>
+                    <a [routerLink]="['../' + eRouters.edit]"
+                       nz-button nzSize="small"
+                       [queryParams]="{id: data.id}">
+                        <i nz-icon type="edit"></i> Sửa</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a nz-popconfirm
+                       nzTitle="Bạn chắc chắn muốn xóa kiểu khách hàng này"
+                       nz-button nzSize="small" nzType="danger"
+                       (nzOnConfirm)="doDelete(i)">
+                        <i nz-icon [type]="data.isDeleting ? 'loading' : 'delete'"></i> Xóa</a>
+                </td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+</nz-spin>
+

@@ -1,0 +1,68 @@
+<nz-spin [nzSpinning]="isLoading">
+    <nz-card [nzTitle]="'Danh sách tuyến đường'">
+        <nz-table [nzData]="datas"
+                  [nzShowPagination]="false"
+                  nzFrontPagination="false"
+                  [nzBordered]="true"
+                  [nzScroll]="{x: '800px'}"
+        >
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Tên</th>
+                <th>Chặng</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of datas; let i = index">
+                <td>{{data.id}}</td>
+                <td>{{data.name}}</td>
+                <td>
+                    <nz-collapse [nzBordered]="false" *ngIf="data.voyageParts">
+                        <nz-collapse-panel class="tiny-collapse" [nzHeader]="'Chặng con'" [nzActive]="false">
+                            <ng-container *ngFor="let child of data.voyageParts">
+                                <p>- Đường {{child.fromName}} - Đường {{child.toName}} - {{child.distance}}km</p>
+                            </ng-container>
+                        </nz-collapse-panel>
+                    </nz-collapse>
+                </td>
+                <td [className]="data.status === voyageStatus.Active ? 'color-success' : 'color-danger'">
+                    {{data.status === voyageStatus.Active ? 'Hoạt động' : 'Không hoạt động'}}
+                </td>
+                <td>
+                    <!--<a [routerLink]="['/' + eRouters.voyages, eRouters.edit]"-->
+                    <!--[queryParams]="{id: data.id}"-->
+                    <!--nz-button nzSize="small"-->
+                    <!--class="mr-1 mb-1"-->
+                    <!--&gt;-->
+                    <!--<i nz-icon type="edit"></i> Sửa</a>-->
+                    <a nz-popconfirm
+                       nz-button nzSize="small" nzType="danger"
+                       [nzTitle]="'Bạn thực sự muốn xóa tuyến đường ' + data.name + ' ?'"
+                       (nzOnConfirm)="doDelete(i)"
+                       *ngIf="data.status !== voyageStatus.Inactive"
+                    >
+                        <i nz-icon [type]="data.isDeleting ? 'loading' : 'delete'"></i>Xóa
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </nz-table>
+
+<!--        <nz-pagination *ngIf="meta"-->
+<!--                       [(nzPageIndex)]="requestParams.page"-->
+<!--                       [nzTotal]="meta.total"-->
+<!--                       [(nzPageSize)]="requestParams.limit"-->
+<!--                       [nzSize]="'small'" nzShowSizeChanger nzShowQuickJumper-->
+<!--                       [nzShowTotal]="totalTemplate"-->
+<!--                       (nzPageSizeChange)="requestParams.page = 1; refresh()"-->
+<!--                       (nzPageIndexChange)="refresh()"-->
+<!--                       class="custom-pagination"-->
+<!--        >-->
+<!--        </nz-pagination>-->
+<!--        <ng-template #totalTemplate let-total>Tổng cộng {{total}} bản ghi</ng-template>-->
+
+    </nz-card>
+</nz-spin>

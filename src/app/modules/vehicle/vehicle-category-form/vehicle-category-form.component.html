@@ -1,0 +1,64 @@
+<nz-card nzTitle="Thêm nhóm xe">
+  <section nz-row nzType="flex" nzJustify="center">
+    <form nz-form [formGroup]="form" class="login-form">
+      <div nz-row [nzGutter]="8">
+        <div nz-col [nzLg]="24">
+          <ng-container *ngIf="form.get('name') as name">
+            <nz-form-item>
+              <nz-form-label><strong>Tên nhóm xe</strong></nz-form-label>
+              <nz-form-control [nzErrorTip]="nameValidate">
+                <input type="text" nz-input
+                       [formControl]="name"
+                       placeholder="Tên nhóm xe"
+                       class="w-100"
+                />
+              </nz-form-control>
+              <ng-template #nameValidate>
+                Hãy nhập tên nhóm xe
+              </ng-template>
+            </nz-form-item>
+          </ng-container>
+        </div>
+        <div nz-col [nzMd]="12">
+          <ng-container *ngIf="form.get('seatQuantity') as seatQuantity">
+            <nz-form-item>
+              <nz-form-label><strong>Số chỗ ngồi</strong></nz-form-label>
+              <nz-form-control [nzErrorTip]="seatQuantityValidate">
+                <nz-input-number nz-input
+                                 [formControl]="seatQuantity"
+                                 class="w-100"></nz-input-number>
+              </nz-form-control>
+              <ng-template #seatQuantityValidate>
+                Hãy nhập số chỗ ngồi
+              </ng-template>
+            </nz-form-item>
+          </ng-container>
+        </div>
+        <div nz-col [nzMd]="12">
+          <ng-container *ngIf="form.get('price') as price">
+            <nz-form-item>
+              <nz-form-label><strong>Giá (VND/Km)</strong></nz-form-label>
+              <nz-form-control [nzErrorTip]="priceValidate">
+                <nz-input-number nz-input [formControl]="price" class="w-100"></nz-input-number>
+              </nz-form-control>
+              <ng-template #priceValidate>
+                Hãy nhập giá tiền
+              </ng-template>
+            </nz-form-item>
+          </ng-container>
+        </div>
+      </div>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button
+                  class="login-form-button w-100"
+                  [nzType]="'primary'"
+                  (click)="isSubmit ? onSubmit() : onEdit()"
+                  [disabled]="isPost"
+          >Lưu
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </section>
+</nz-card>

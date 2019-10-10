@@ -1,0 +1,78 @@
+<nz-card nzTitle="Thêm xe">
+  <section nz-row nzJustify="center" nzType="flex">
+    <form nz-form [formGroup]="form">
+      <div nz-row [nzGutter]="12">
+        <div nz-col [nzMd]="12">
+          <ng-container *ngIf="form.get('name') as name">
+            <nz-form-item>
+              <nz-form-label><strong>Tên/Số hiệu xe</strong></nz-form-label>
+              <nz-form-control [nzErrorTip]="vehicleNameValidate">
+                <input type="text" nz-input [formControl]="name" class="w-100" placeholder="Nhập tên xe"/>
+              </nz-form-control>
+              <ng-template #vehicleNameValidate>
+                Hãy nhập tên xe
+              </ng-template>
+            </nz-form-item>
+          </ng-container>
+        </div>
+        <div nz-col [nzMd]="12">
+          <ng-container *ngIf="form.get('plate') as plate">
+            <nz-form-item nz-col [nzMd]="12">
+              <nz-form-label><strong>Biển số xe</strong></nz-form-label>
+              <nz-form-control [nzErrorTip]="plateValidate">
+                <input type="text" nz-input [formControl]="plate" class="w-100" placeholder="Nhập biển số xe"/>
+              </nz-form-control>
+              <ng-template #plateValidate>
+                Hãy nhập biển số xe
+              </ng-template>
+            </nz-form-item>
+          </ng-container>
+        </div>
+        <div nz-col [nzMd]="12">
+          <ng-container *ngIf="form.get('color') as color">
+            <nz-form-item nz-col [nzMd]="12">
+              <nz-form-label><strong>Màu xe</strong></nz-form-label>
+              <nz-form-control [nzErrorTip]="colorValidate">
+                <input type="text"
+                       nz-input
+                       [formControl]="color"
+                       class="w-100"
+                       placeholder="Nhập màu xe"
+                />
+              </nz-form-control>
+              <ng-template #colorValidate>
+                Hãy nhập màu xe
+              </ng-template>
+            </nz-form-item>
+          </ng-container>
+        </div>
+        <div nz-col [nzMd]="12">
+          <ng-container *ngIf="form.get('category_id') as category_id">
+            <nz-form-item nz-col [nzMd]="12">
+              <nz-form-label><strong>Nhóm xe</strong></nz-form-label>
+              <nz-form-control [nzErrorTip]="vehicleCtValidate">
+                <app-vehicle-category-selector [formControl]="category_id">
+
+                </app-vehicle-category-selector>
+              </nz-form-control>
+              <ng-template #vehicleCtValidate>
+                Hãy nhập nhóm xe
+              </ng-template>
+            </nz-form-item>
+          </ng-container>
+        </div>
+      </div>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button
+                  class="login-form-button w-100"
+                  [nzType]="'primary'"
+                  [disabled]="isPost"
+                  (click)="isSubmit ? onSubmit(): onEdit()"
+          >Lưu
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </section>
+</nz-card>

@@ -1,0 +1,101 @@
+<nz-card>
+    <section nz-row nzType="flex" nzJustify="center">
+        <div nz-col [nzXXl]="14" [nzXl]="14" [nzLg]="16" [nzMd]="20" [nzSm]="22" [nzXs]="24">
+            <!--[formGroup]="inputForm"-->
+            <form nz-form [nzLayout]="'vertical'" [formGroup]="voyageForm" (ngSubmit)="submitForm()"
+                  style="width: 100%;">
+                <div nz-row>
+                    <div nz-col [nzXs]="24">
+                        <ng-container *ngIf="voyageForm.get('name') as name">
+                            <nz-form-item>
+                                <nz-form-label>Tên <strong class="color-danger">*</strong></nz-form-label>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="nameValidateTip">
+                                    <input type="text" nz-input placeholder="Tên tuyến đường" [formControl]="name">
+                                    <ng-template #nameValidateTip let-control>
+                                        Hãy nhập tên tuyến đường
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </ng-container>
+                    </div>
+                </div>
+                <div nz-row nzGutter="6">
+                    <ng-container *ngIf="helper.getAsFormArray(voyageForm, 'voyagePartRequests') as voyagePartForm">
+                        <nz-collapse>
+                            <ng-container formArrayName="voyagePartRequests"
+                                          *ngFor="let voyagePartFormControl of voyagePartForm.controls; let i = index">
+
+                                <nz-collapse-panel
+                                        [nzHeader]="'Trạm ' + (i + 1)"
+                                        [nzActive]="true"
+                                        [formGroupName]="i"
+                                        [nzExtra]="extraTemplate"
+                                >
+                                    <div nz-col [nzXs]="24" [nzMd]="8">
+                                        <nz-form-item *ngIf="voyagePartFormControl.get('fromId') as from_id">
+                                            <nz-form-label>Điểm đầu <strong class="color-danger">*</strong></nz-form-label>
+                                            <nz-form-control nzHasFeedback [nzErrorTip]="fromIdValidateTip">
+                                                <app-region-selector [formControl]="from_id"></app-region-selector>
+                                                <ng-template #fromIdValidateTip>
+                                                    Hãy chọn điểm đầu
+                                                </ng-template>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                    </div>
+
+                                    <div nz-col [nzXs]="24" [nzMd]="8">
+                                        <nz-form-item *ngIf="voyagePartFormControl.get('toId') as to_id">
+                                            <nz-form-label>Điểm cuối <strong class="color-danger">*</strong></nz-form-label>
+                                            <nz-form-control nzHasFeedback [nzErrorTip]="toIdValidateTip">
+                                                <app-region-selector [formControl]="to_id"></app-region-selector>
+                                                <ng-template #toIdValidateTip>
+                                                    Hãy chọn điểm cuối
+                                                </ng-template>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                    </div>
+
+                                    <div nz-col [nzXs]="24" [nzMd]="8">
+                                        <nz-form-item *ngIf="voyagePartFormControl.get('distance') as distance">
+                                            <nz-form-label>Khoảng cách <strong class="color-danger">*</strong></nz-form-label>
+                                            <nz-form-control nzHasFeedback [nzErrorTip]="distanceValidateTip">
+                                                <nz-input-number [nzPlaceHolder]="'Khoảng cách'"
+                                                                 class="w-100"
+                                                                 [formControl]="distance">
+
+                                                </nz-input-number>
+                                                <ng-template #distanceValidateTip>
+                                                    Hãy chọn khoảng cách
+                                                </ng-template>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                    </div>
+                                </nz-collapse-panel>
+                                <ng-template #extraTemplate>
+                                    <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeItem(i)"></i>
+                                </ng-template>
+                            </ng-container>
+                        </nz-collapse>
+                    </ng-container>
+
+                    <div nz-col [nzXs]="24">
+                        <nz-form-item style="margin-top: 2em">
+                            <nz-form-control>
+                                <button nz-button class="w-50" type="button" (click)="addRecord()" style="margin-right: 1em">
+                                    Thêm trạm
+                                </button>
+                                <button nz-button
+                                        nzType="primary"
+                                        class="w-50"
+                                        [nzLoading]="isSaving"><i nz-icon type="save"></i>Lưu
+                                </button>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </section>
+</nz-card>
+

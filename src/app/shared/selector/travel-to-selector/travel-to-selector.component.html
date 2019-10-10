@@ -1,0 +1,10 @@
+<nz-select nzPlaceHolder="Điểm đến"
+           [(ngModel)]="to"
+           (ngModelChange)="takeVoyageAndEmitEvent()"
+           nzAllowClear
+           class="w-100 mt-1">
+    <nz-option *ngFor="let voyageTo of datas"
+               [nzLabel]="voyageTo.toName"
+               [nzValue]="voyageTo"
+    ></nz-option>
+</nz-select>

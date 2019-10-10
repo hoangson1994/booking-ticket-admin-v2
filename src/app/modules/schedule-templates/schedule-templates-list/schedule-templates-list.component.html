@@ -1,0 +1,68 @@
+<nz-spin [nzSpinning]="isLoading">
+    <nz-card nzTitle="Danh sách mẫu lịch">
+        <nz-table [nzData]="datas"
+                  [nzShowPagination]="false"
+                  nzFrontPagination="false"
+                  [nzBordered]="true"
+                  [nzScroll]="{x: '800px'}"
+                  nzSize="small"
+        >
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Thời gian bắt đầu</th>
+                <th>Thời gian kết thúc</th>
+                <th>Tuyến đường</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of datas; let i = index">
+                <td>{{data.id}}</td>
+                <td>{{parseOffsetMlsToTime(data.timeStart)}}</td>
+                <td>{{parseOffsetMlsToTime(data.timeEnd)}}</td>
+                <td>
+                    <nz-collapse [nzBordered]="false" *ngIf="data.voyages">
+                        <nz-collapse-panel class="tiny-collapse" [nzHeader]="'Tuyến'" [nzActive]="false">
+                            <ng-container *ngFor="let voyage of data.voyages">
+                                <p>- {{voyage.name}}</p>
+                            </ng-container>
+                        </nz-collapse-panel>
+                    </nz-collapse>
+                </td>
+                <td [class.color-success]="data.status === statuses.Active"
+                    [class.color-danger]="data.status === statuses.Inactive"
+                >{{statuses[data.status] | translate}}</td>
+                <td>
+                    <a [routerLink]="['../' + eRouters.edit]"
+                       nz-button nzSize="small"
+                       [queryParams]="{id: data.id}">
+                        <i nz-icon type="edit"></i> Sửa</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a nz-popconfirm
+                       nzTitle="Bạn chắc chắn muốn xóa mẫu lịch này"
+                       nz-button nzSize="small" nzType="danger"
+                       (nzOnConfirm)="doDelete(i)">
+                        <i nz-icon [type]="data.isDeleting ? 'loading' : 'delete'"></i> Xóa</a>
+                </td>
+            </tr>
+            </tbody>
+        </nz-table>
+
+<!--        <nz-pagination *ngIf="meta"-->
+<!--                       [(nzPageIndex)]="requestParams.page"-->
+<!--                       [nzTotal]="meta.total"-->
+<!--                       [(nzPageSize)]="requestParams.limit"-->
+<!--                       [nzSize]="'small'" nzShowSizeChanger nzShowQuickJumper-->
+<!--                       [nzShowTotal]="totalTemplate"-->
+<!--                       (nzPageSizeChange)="requestParams.page = 1; refresh()"-->
+<!--                       (nzPageIndexChange)="refresh()"-->
+<!--                       class="custom-pagination"-->
+<!--        >-->
+<!--        </nz-pagination>-->
+<!--        <ng-template #totalTemplate let-total>Tổng cộng {{total}} bản ghi</ng-template>-->
+
+    </nz-card>
+</nz-spin>
+

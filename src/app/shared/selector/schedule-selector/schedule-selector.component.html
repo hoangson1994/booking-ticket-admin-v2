@@ -1,0 +1,13 @@
+<nz-select class="w-100offsetMls"
+           [(ngModel)]="model"
+           nzPlaceHolder="Chọn lịch"
+           nzShowSearch
+           nzAllowClear
+>
+  <ng-container *ngFor="let data of datas">
+    <nz-option [nzValue]="data.id"
+               [nzLabel]="parseMlsToTime(data.startTime) + ' - ' + data.driver.name + ' - ' + data.vehicle.plate"
+    ></nz-option>
+  </ng-container>
+
+</nz-select>

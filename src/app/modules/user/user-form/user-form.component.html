@@ -1,0 +1,147 @@
+<nz-card nzTitle="Thêm nhân viên">
+  <section nz-row nzType="flex" nzJustify="center">
+    <div nz-col [nzXXl]="14" [nzXl]="14" [nzLg]="16" [nzMd]="20" [nzSm]="22" [nzXs]="24">
+
+      <form nz-form [formGroup]="form" class="login-form">
+        <div nz-row [nzGutter]="12">
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('name') as name">
+              <nz-form-item>
+                <nz-form-label><strong>Tên nhân viên</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="vehicleNameValidate">
+                  <input type="text" nz-input [formControl]="name" class="w-100" placeholder="Nhập tên"/>
+                </nz-form-control>
+                <ng-template #vehicleNameValidate>
+                  Hãy nhập tên nhân viên
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('email') as email">
+              <nz-form-item>
+                <nz-form-label><strong>Địa chỉ email</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="emailValidate">
+                  <input type="text" nz-input [formControl]="email" class="w-100" placeholder="Nhập email"/>
+                </nz-form-control>
+                <ng-template #emailValidate>
+                  Hãy nhập email
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('password') as password">
+              <nz-form-item>
+                <nz-form-label><strong>Mật khẩu</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="passwordValidate">
+                  <input type="password" nz-input [formControl]="password" class="w-100" placeholder="Nhập mật khẩu"/>
+                </nz-form-control>
+                <ng-template #passwordValidate>
+                  Hãy nhập mật khẩu
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('phoneNumber') as phoneNumber">
+              <nz-form-item>
+                <nz-form-label><strong>Số điện thoại</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="phoneNumberValidate">
+                  <input type="text" nz-input [formControl]="phoneNumber" class="w-100"
+                         placeholder="Nhập số điện thoại"/>
+                </nz-form-control>
+                <ng-template #phoneNumberValidate>
+                  Hãy nhập số điện thoại
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('address') as address">
+              <nz-form-item>
+                <nz-form-label><strong>Địa chỉ</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="addressValidate">
+                  <input type="text" nz-input [formControl]="address" class="w-100" placeholder="Nhập địa chỉ"/>
+                </nz-form-control>
+                <ng-template #addressValidate>
+                  Hãy nhập địa chỉ
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('birthday') as birthday">
+              <nz-form-item>
+                <nz-form-label><strong>Sinh nhật</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="birthdayValidate">
+                  <app-custom-datepicker [dateControl]="birthday"></app-custom-datepicker>
+                </nz-form-control>
+                <ng-template #birthdayValidate>
+                  Hãy nhập sinh nhật
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('gender') as gender">
+              <nz-form-item>
+                <nz-form-label><strong>Giới tính</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="genderValidate">
+                  <nz-select
+                    style="width: 200px;"
+                    nzShowSearch
+                    nzAllowClear
+                    [formControl]="gender"
+                    nzPlaceHolder="Chọn giới tính"
+                    [(ngModel)]="selectedValue"
+                  >
+                    <nz-option nzLabel="Male" nzValue="1"></nz-option>
+                    <nz-option nzLabel="Female" nzValue="2"></nz-option>
+                    <nz-option nzLabel="Other" nzValue="3"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+                <ng-template #genderValidate>
+                  Hãy nhập số điện thoại
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+          <div nz-col [nzMd]="12">
+            <ng-container *ngIf="form.get('avatar') as avatar">
+              <nz-form-item>
+                <nz-form-label><strong>Avatar</strong></nz-form-label>
+                <nz-form-control [nzErrorTip]="avatarValidate">
+                  <input type="text" nz-input [formControl]="avatar" class="w-100" placeholder="Nhập link ảnh"/>
+                </nz-form-control>
+                <ng-template #avatarValidate>
+                  Hãy nhập số điện thoại
+                </ng-template>
+              </nz-form-item>
+            </ng-container>
+          </div>
+
+        </div>
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button
+                    class="login-form-button w-100"
+                    [nzType]="'primary'"
+                    (click)="onSubmit()"
+                    [disabled]="isPost"
+            >Lưu
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+  </section>
+</nz-card>
+

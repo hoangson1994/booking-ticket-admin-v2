@@ -1,0 +1,69 @@
+<nz-card nzTitle="Thêm kiểu khách hàng">
+    <section nz-row nzType="flex" nzJustify="center">
+        <div nz-col [nzXXl]="14" [nzXl]="14" [nzLg]="16" [nzMd]="20" [nzSm]="22" [nzXs]="24">
+            <!--[formGroup]="inputForm"-->
+            <form nz-form [nzLayout]="'vertical'" [formGroup]="form" (ngSubmit)="submit()"
+                  style="width: 100%;">
+                <div nz-row nzGutter="8">
+                    <div nz-col [nzXs]="24" nzMd="12">
+                        <ng-container *ngIf="form.get('name') as name">
+                            <nz-form-item>
+                                <nz-form-label>Tên <strong class="color-danger">*</strong></nz-form-label>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="nameValidateTip">
+                                    <input type="text" nz-input placeholder="Tên" [formControl]="name">
+                                    <ng-template #nameValidateTip let-control>
+                                        Hãy nhập tên
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </ng-container>
+                    </div>
+
+                    <div nz-col [nzXs]="24" nzMd="12">
+                        <ng-container *ngIf="form.get('discount') as discount">
+                            <nz-form-item>
+                                <nz-form-label>Ưu đãi (%) <strong class="color-danger">*</strong></nz-form-label>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="descriptionValidateTip">
+                                    <input type="text" nz-input placeholder="Ưu đãi" [formControl]="discount">
+                                    <ng-template #descriptionValidateTip let-control>
+                                        Hãy nhập ưu đãi
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </ng-container>
+                    </div>
+
+                    <div nz-col [nzXs]="24">
+                        <ng-container *ngIf="form.get('description') as description">
+                            <nz-form-item>
+                                <nz-form-label>Mô tả </nz-form-label>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="descriptionValidateTip">
+                                    <textarea nz-input rows="3" placeholder="Ưu đãi" [formControl]="description"></textarea>
+                                    <ng-template #descriptionValidateTip let-control>
+                                        Hãy nhập mô tả
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </ng-container>
+                    </div>
+                </div>
+                <div nz-row nzGutter="6">
+                    <div nz-col [nzXs]="24">
+                        <nz-form-item style="margin-top: 2em">
+                            <nz-form-control>
+                                <button nz-button
+                                        nzType="primary"
+                                        class="w-50"
+                                        [nzLoading]="isSaving"><i nz-icon type="save"></i>Lưu
+                                </button>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </section>
+</nz-card>
+
+

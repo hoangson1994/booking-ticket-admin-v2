@@ -1,0 +1,70 @@
+<nz-spin [nzSpinning]="isLoading">
+    <nz-card nzTitle="Lịch của khách" class="mb-5">
+        <nz-table [nzData]="data" [nzShowPagination]="false" nzFrontPagination="false" [nzBordered]="true"
+                  [nzScroll]="{x: '800px'}">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Khách hàng</th>
+                <th>Lịch</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{data.id}}</td>
+                <td>{{data.customer?.name + ' - ' + data.customer?.phoneNumber}}</td>
+                <td>{{'Xe: ' + data.schedule?.vehicle?.name + ' - ' + data.schedule?.vehicle?.plate +
+                '. Chuyến: ' + data.schedule?.voyage?.name +
+                '. Khởi hành: ' + parseDate(data?.schedule?.startTime)
+                    }}</td>
+                <td>{{data.finalPrice}}</td>
+                <td [class.color-success]="data.status === orderStatus.Active"
+                    [class.color-danger]="data.status === orderStatus.InActive"
+                >{{data.status === orderStatus.Active ? 'Thành công' : 'Hủy'}}</td>
+                <td>
+                    <a nz-popconfirm
+                       nz-button nzSize="small" nzType="danger"
+                       [nzTitle]="'Bạn thực sự muốn hủy chuyến ?'"
+                       (nzOnConfirm)="delete()"
+                       *ngIf="data.status !== orderStatus.InActive"
+                    >
+                        <i nz-icon [type]="data.isDeleting ? 'loading' : 'delete'"></i>Hủy
+                    </a>
+            </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+
+    <nz-card nzTitle="Chi tiết" class="mb-5">
+        <nz-table *ngIf="data.orderDetails"
+                  [nzData]="data.orderDetails" [nzShowPagination]="false" nzFrontPagination="false"
+                  [nzBordered]="true"
+                  [nzScroll]="{x: '800px'}">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Điểm đi</th>
+                <th>Điểm đến</th>
+                <th>Số lượng</th>
+                <th>Giá thực</th>
+                <th>Giá sau khi giảm</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of data.orderDetails; let i = index">
+                <td>{{i + 1}}</td>
+                <td>{{data.travelFromId}}</td>
+                <td>{{data.travelToId}}</td>
+                <td>{{data.quantity}}</td>
+                <td>{{(data.originTotalPrice)}}</td>
+                <td>{{(data.totalPrice)}}</td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </nz-card>
+</nz-spin>
+
+

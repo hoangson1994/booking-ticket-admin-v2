@@ -1,0 +1,47 @@
+<nz-card nzTitle="Đăng nhập">
+  <section nz-row nzType="flex" nzJustify="center">
+    <form nz-form [formGroup]="form" class="login-form" >
+      <ng-container *ngIf="form.get('email') as email">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="emailValidate">
+            <nz-input-group nzPrefixIcon="mail">
+              <input type="text" nz-input [formControl]="email" placeholder="Email"/>
+            </nz-input-group>
+            <ng-template #emailValidate>
+              Hãy nhập email
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </ng-container>
+
+      <ng-container *ngIf="form.get('password') as password">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="passwordValidate">
+            <nz-input-group nzPrefixIcon="lock">
+              <input type="password" nz-input [formControl]="password" placeholder="Password"/>
+            </nz-input-group>
+            <ng-template #passwordValidate>
+              Hãy nhập mật khẩu
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </ng-container>
+
+      <nz-form-item>
+        <nz-form-control>
+          <a class="login-form-forgot" style="margin-right: 10px">Forgot password</a>
+
+          <button nz-button class="login-form-button"
+                  [nzLoading]="isPostingForm"
+                  [nzType]="'primary'"
+                  [disabled]="isPostingForm"
+                  (click)="onSubmit()"
+          >
+            Log in
+          </button>
+
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </section>
+</nz-card>
