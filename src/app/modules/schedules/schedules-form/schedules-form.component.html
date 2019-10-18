@@ -1,4 +1,4 @@
-<nz-card nzTitle="Tạo lịch">
+<nz-card [nzTitle]="getTitle()">
   <section nz-row nzType="flex" nzJustify="center">
     <div nz-col [nzXXl]="14" [nzXl]="14" [nzLg]="16" [nzMd]="20" [nzSm]="22" [nzXs]="24">
       <form [formGroup]="form" nz-form>
@@ -7,7 +7,7 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('driverId') as driverId">
               <nz-form-item>
-                <nz-form-label><strong>Tên nhân viên</strong></nz-form-label>
+                <nz-form-label>Tên nhân viên</nz-form-label>
                 <nz-form-control [nzErrorTip]="driverNameValidate">
                   <app-user-selector [formControl]="driverId">
 
@@ -23,7 +23,7 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('vehicleCategoryId') as vehicleCategoryId">
               <nz-form-item nz-col [nzMd]="12">
-                <nz-form-label><strong>Nhóm xe</strong></nz-form-label>
+                <nz-form-label>Nhóm xe</nz-form-label>
                 <nz-form-control [nzErrorTip]="vehicleCtValidate">
                   <app-vehicle-category-selector [formControl]="vehicleCategoryId">
                   </app-vehicle-category-selector>
@@ -38,9 +38,10 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('vehicleId') as vehicleId">
               <nz-form-item nz-col [nzMd]="12">
-                <nz-form-label><strong>Tên xe</strong></nz-form-label>
+                <nz-form-label>Xe</nz-form-label>
                 <nz-form-control [nzErrorTip]="vehicleValidate">
-                  <app-vehicle-selector [formControl]="vehicleId">
+                  <app-vehicle-selector [formControl]="vehicleId" [disabled]="true" mode="default"
+                                        [vehicleCategoryId]="form.get('vehicleCategoryId').value">
                   </app-vehicle-selector>
                 </nz-form-control>
                 <ng-template #vehicleValidate>
@@ -53,7 +54,7 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('scheduleTemplateId') as scheduleTemplateId">
               <nz-form-item nz-col [nzMd]="12">
-                <nz-form-label><strong>Mẫu lịch</strong></nz-form-label>
+                <nz-form-label>Mẫu lịch</nz-form-label>
                 <nz-form-control [nzErrorTip]="stValidate">
                   <app-schedule-template-selector [formControl]="scheduleTemplateId">
 
@@ -69,7 +70,7 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('voyageId') as voyageId">
               <nz-form-item nz-col [nzMd]="12">
-                <nz-form-label><strong>Tuyến đường</strong></nz-form-label>
+                <nz-form-label>Tuyến đường</nz-form-label>
                 <nz-form-control [nzErrorTip]="voyageValidate">
                   <app-voyage-selector [formControl]="voyageId"
                                        mode="default"
@@ -88,7 +89,7 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('scheduleDate') as scheduleDate">
               <nz-form-item>
-                <nz-form-label><strong>Thời gian</strong></nz-form-label>
+                <nz-form-label>Thời gian</nz-form-label>
                 <nz-form-control [nzErrorTip]="sdValidate">
                   <app-custom-datepicker [dateControl]="scheduleDate" [dateInput]="selectedSchedule.startTime"></app-custom-datepicker>
                 </nz-form-control>
@@ -105,7 +106,7 @@
             <button nz-button
                     class="login-form-button w-100"
                     [nzType]="'primary'"
-                    (click)="isSubmit ? onSubmit() : onEdit()"
+                    (click)="onSubmit()"
                     [disabled]="isPost"
             >Lưu
             </button>

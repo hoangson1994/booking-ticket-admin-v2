@@ -41,7 +41,7 @@ export class OrderFormComponent implements OnInit {
     constructor(
         private orderService: OrderService,
         private voyageService: VoyagesService,
-        private helper: HelperService,
+        public helper: HelperService,
         private form: FormBuilder,
         private router: Router,
         private notify: NzNotificationService,
@@ -67,7 +67,7 @@ export class OrderFormComponent implements OnInit {
             return this.voyageParts;
         }
         return this.voyageParts.filter((value, index) => {
-            const toIndex = this.voyageParts.indexOf(this.to);
+            const toIndex = this.voyageParts.findIndex(part => part.id === this.to.id);
             return index <= toIndex;
         });
     }
@@ -77,13 +77,13 @@ export class OrderFormComponent implements OnInit {
             return this.voyageParts;
         }
         return this.voyageParts.filter((value, index) => {
-            const fromIndex = this.voyageParts.indexOf(this.from);
+            const fromIndex = this.voyageParts.findIndex(part => part.id === this.from.id);
             return index >= fromIndex;
         });
     }
 
     takeVoyagePartFrom(voyagePart: IVoyagePart, index: number) {
-
+        this.from = voyagePart;
         const travelFrom = this.voyageParts[this.voyageParts.findIndex(part => part.id === voyagePart.id)];
         const orderDetailRequestFormArray = this.orderForm.get('orderDetailRequest') as FormArray;
         const orderDetailRequestFormGroup = orderDetailRequestFormArray.at(index) as FormGroup;
@@ -91,7 +91,7 @@ export class OrderFormComponent implements OnInit {
     }
 
     takeVoyagePartTo(voyagePart: IVoyagePart, index: number) {
-
+        this.to = voyagePart;
         const travelTo = this.voyageParts[this.voyageParts.findIndex(part => part.id === voyagePart.id)];
         const orderDetailRequestFormArray = this.orderForm.get('orderDetailRequest') as FormArray;
         const orderDetailRequestFormGroup = orderDetailRequestFormArray.at(index) as FormGroup;

@@ -65,12 +65,20 @@ export class ScheduleTemplateFormComponent implements OnInit {
                 next: value => {
                     this.notify.success('Thành công',
                         Object.keys(this.data).length > 0 ? 'Sửa mẫu lịch thành công' : 'Thêm mẫu lịch thành công');
-                    // this.router.navigate(['/', ERouters.schedule_templates, ERouters.list]);
+                    this.router.navigate(['/', ERouters.schedule_templates, ERouters.list]);
                 },
                 error: err => {
                     this.helper.handleError(err);
                 }
             });
 
+    }
+
+    getTitle() {
+        let title = 'Thêm mẫu lịch';
+        if (Object.keys(this.data).length > 0) {
+            title = 'Sửa mẫu lịch';
+        }
+        return title;
     }
 }

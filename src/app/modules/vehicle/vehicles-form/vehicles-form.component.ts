@@ -56,6 +56,7 @@ export class VehiclesFormComponent implements OnInit {
       .subscribe({
         next: value => {
           this.notify.success('Thành công', 'Thêm xe thành công');
+          this.router.navigate(['/vehicles/vehicle-list']);
         },
         error: err => {
           this.helper.handleError(err);

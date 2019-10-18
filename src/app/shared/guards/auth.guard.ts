@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     canActivate(
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        return this.checkLogin(state.url);
+        return this.checkLogin(next.data);
     }
 
     canActivateChild(
@@ -41,11 +41,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
                 .userData()
                 .subscribe({
                     next: value => {
-                        // const canAccess = this.authService.canAccessThisRoute(data);
-                        // if (!canAccess) {
-                        //   this.notify.warning('Truy cập thất bại', 'Bạn không có quyền truy cập vào tài nguyên này');
-                        // }
-                        // observer.next(canAccess);
+                        const canAccess = this.authService.canAccessThisRoute(data);
+                        if (!canAccess) {
+                          this.notify.warning('Truy cập thất bại', 'Bạn không có quyền truy cập vào tài nguyên này');
+                        }
+                        observer.next(canAccess);
                         observer.next(true);
                     },
                     error: err => {

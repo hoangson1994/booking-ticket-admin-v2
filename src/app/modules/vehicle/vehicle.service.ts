@@ -120,4 +120,11 @@ export class VehicleService {
       {headers: this.helper.getAuth()}
     ).pipe(map(({data}) => data));
   }
+
+  listVehicleByVehicleCategory(id): Observable<IVehicle[]> {
+    return this.http.get<{ datas: IVehicle[] }>(`${API_URL}vehicles/category/${id}`, {
+      headers: this.helper.getAuth()
+    })
+        .pipe(map(({datas}) => datas));
+  }
 }

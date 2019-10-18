@@ -4,9 +4,11 @@ import {HelperService} from '../../../shared/services/helper.service';
 import {IScheduleTemplate} from '../../../interfaces/schedule-template.interface';
 import * as moment from 'moment';
 import {finalize} from 'rxjs/operators';
-import {ERouters} from '../../../resources/static.resource';
+import {ERouters, ORDER_LIST_STATE_KEY} from '../../../resources/static.resource';
 import {IOrder, OrderStatus} from '../../../interfaces/order.interface';
 import {OrderService} from '../order.service';
+import {OrderParam} from '../order.param';
+import {StoreService} from '../../../shared/services/store.service';
 
 @Component({
     selector: 'app-order-list',
@@ -22,20 +24,41 @@ export class OrderListComponent implements OnInit {
     eRouters = ERouters;
     isLoading: any;
     orderStatus = OrderStatus;
+    orderStatusOptions = this.helper.enumToKeyValue(OrderStatus);
+    params: OrderParam;
 
     constructor(
         private service: OrderService,
         private helper: HelperService,
+        private store: StoreService,
     ) {
     }
 
     ngOnInit() {
-        this.list();
+        this.params = this.store.get(ORDER_LIST_STATE_KEY, new OrderParam());
+        this.search();
     }
 
     list() {
+        this.isLoading = true;
         this.service.listOrder()
-            .pipe(finalize(() => this.loading = false))
+            .pipe(finalize(() => this.isLoading = false))
+            .subscribe(
+                {
+                    next: value => {
+                        this.datas = value;
+                    },
+                    error: err => {
+                        this.helper.handleError(err);
+                    }
+                }
+            );
+    }
+
+    search() {
+        this.isLoading = true;
+        this.service.searchOrder(this.params)
+            .pipe(finalize(() => this.isLoading = false))
             .subscribe(
                 {
                     next: value => {

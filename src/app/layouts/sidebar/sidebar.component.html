@@ -1,16 +1,20 @@
 <div class="sidebar">
   <ul nz-menu [nzMode]="'inline'">
-    <li nz-menu-group *ngFor="let group of routerGroups">
-      <span title *ngIf="group.name">{{group.name}}</span>
-      <ul>
-        <ng-container *ngFor="let route of group.children">
-          <li nz-menu-item (click)="onSelectRoute()" *ngIf="route.data.display" [routerLink]="[group.path, route.path]"
-            [nzSelected]="isSelected([group.path, route.path])">
-            <i nz-icon type="{{route.data.icon}}" *ngIf="route.data.icon"></i> {{route.data.name}}
-          </li>
-        </ng-container>
+    <ng-container *ngFor="let group of routerGroups">
+      <ng-container *ngIf="canAccess(group.data)">
+        <li nz-menu-group>
+          <span title *ngIf="group.name">{{group.name}}</span>
+          <ul>
+            <ng-container *ngFor="let route of group.children">
+              <li nz-menu-item (click)="onSelectRoute()" *ngIf="route.data.display && canAccess(route.data)" [routerLink]="[group.path, route.path]"
+                  [nzSelected]="isSelected([group.path, route.path])">
+                <i nz-icon type="{{route.data.icon}}" *ngIf="route.data.icon"></i> {{route.data.name}}
+              </li>
+            </ng-container>
 
-      </ul>
-    </li>
+          </ul>
+        </li>
+      </ng-container>
+    </ng-container>
   </ul>
 </div>

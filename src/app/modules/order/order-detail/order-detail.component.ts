@@ -28,6 +28,7 @@ export class OrderDetailComponent implements OnInit {
     }
 
     refresh() {
+        this.data = {} as IOrder;
         const id = this.route.snapshot.queryParams.id;
         if (id) {
             this.isLoading = true;

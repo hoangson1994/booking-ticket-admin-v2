@@ -1,0 +1,81 @@
+<nz-spin [nzSpinning]="isLoading">
+    <nz-tabset>
+        <nz-tab nzTitle="Thông tin nhóm quyền">
+            <nz-card>
+                <section nz-row nzType="flex" nzJustify="center">
+                    <div nz-col [nzXXl]="14" [nzXl]="14" [nzLg]="16" [nzMd]="20" [nzSm]="22" [nzXs]="24">
+                        <!--[formGroup]="inputForm"-->
+                        <form nz-form [nzLayout]="'vertical'" [formGroup]="form"  (ngSubmit)="submitForm()" class="w-100">
+                            <div nz-row nzGutter="6">
+
+                                <div nz-col [nzXs]="24" *ngIf="form.get('name') as name">
+                                    <nz-form-item>
+                                        <nz-form-label>Tên nhóm quyền <b class="color-danger">*</b></nz-form-label>
+                                        <nz-form-control [nzErrorTip]="nameValidate" [nzValidateStatus]="name">
+                                            <input [formControl]="name" nz-input placeholder="Nhập tên nhóm quyền" >
+                                            <ng-template #nameValidate>
+                                                Hãy nhập tên nhóm quyền
+                                            </ng-template>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzXs]="24" *ngIf="form.get('roles') as aScopes">
+                                    <nz-form-item>
+                                        <nz-form-label>Quyền <b class="color-danger">*</b></nz-form-label>
+                                        <nz-form-control [nzErrorTip]="policyValidate" [nzValidateStatus]="aScopes">
+                                            <nz-table [nzShowPagination]="false"
+                                                      *ngIf="service.policyScopes"
+                                                      nzSize="small"
+                                                      [nzData]="policyScopes">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Tên quyền</th>
+                                                    <th>Check</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr *ngFor="let data of policyScopes; let i = index">
+                                                    <td>{{i+1}}</td>
+                                                    <td>{{data.name}}</td>
+                                                    <td><label nz-checkbox
+                                                               [(ngModel)]="data.checked"
+                                                               (ngModelChange)="onCheckScope($event, i)"
+                                                               [ngModelOptions]="{standalone: true}"></label></td>
+                                                </tr>
+                                                </tbody>
+                                            </nz-table>
+                                            <ng-template #policyValidate>
+                                                Hãy chọn quyền cho nhóm
+                                            </ng-template>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzXs]="24">
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <button nz-button nzType="primary" class="w-100" [nzLoading]="isSaving">
+                                                <i nz-icon type="save"></i> Lưu
+                                            </button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </section>
+            </nz-card>
+        </nz-tab>
+
+
+        <nz-tab nzTitle="Danh sách thành viên">
+            <app-members-list [policy_id]="id"
+            ></app-members-list>
+        </nz-tab>
+    </nz-tabset>
+</nz-spin>
+

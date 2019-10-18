@@ -29,6 +29,7 @@ export class CustomDatepickerComponent implements OnInit, OnChanges {
     if (ev) {
       value = moment(ev).valueOf();
     }
+    console.log(value);
     this.helper.updateAFormField(this.dateControl, value);
   }
 

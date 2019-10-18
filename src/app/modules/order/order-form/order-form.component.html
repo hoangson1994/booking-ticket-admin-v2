@@ -37,7 +37,7 @@
         <div nz-col [nzXs]="24" [nzMd]="12">
           <ng-container *ngIf="orderForm.get('customerName') as customerName">
             <nz-form-item>
-              <nz-form-label><strong>Tên khách hàng</strong></nz-form-label>
+              <nz-form-label>Tên khách hàng</nz-form-label>
               <nz-form-control [nzErrorTip]="customerNameValidate">
                 <input type="text" [formControl]="customerName" nz-input class="w-100"
                        placeholder="Nhập tên khách hàng"/>
@@ -52,7 +52,7 @@
         <div nz-col [nzXs]="24" [nzMd]="12">
           <ng-container *ngIf="orderForm.get('phoneNumber') as phoneNumber">
             <nz-form-item>
-              <nz-form-label><strong>SDT khách hàng</strong></nz-form-label>
+              <nz-form-label>SDT khách hàng</nz-form-label>
               <nz-form-control [nzErrorTip]="phoneNumberValidate">
                 <input type="text" nz-input class="w-100" [formControl]="phoneNumber"
                        placeholder="Nhập số điện thoại khách hàng"/>
@@ -67,7 +67,7 @@
         <div nz-col [nzMd]="12">
           <ng-container *ngIf="orderForm.get('scheduleId') as scheduleId">
             <nz-form-item>
-              <nz-form-label><strong>Lịch</strong></nz-form-label>
+              <nz-form-label>Lịch</nz-form-label>
               <app-schedule-selector [formControl]="scheduleId"
                                      [voyage_id]="voyageId"
                                      [date]="date"
@@ -81,7 +81,7 @@
         <div nz-col [nzXs]="24" [nzMd]="12">
           <ng-container *ngIf="orderForm.get('paidStatus') as paidStatus">
             <nz-form-item>
-              <nz-form-label><strong>Trạng thái thanh toán</strong></nz-form-label>
+              <nz-form-label>Trạng thái thanh toán</nz-form-label>
               <nz-form-control [nzErrorTip]="paidStatusValidate">
                 <nz-select nzPlaceHolder="Chọn trạng thái" class="w-100" [formControl]="paidStatus">
                   <ng-container *ngFor="let status of orderPaidOptions">
@@ -192,7 +192,7 @@
                 Tạm tính
               </button>
 
-              <p style="display: inline; margin-left: 40px" *ngIf="tempPrice">Tiền: {{tempPrice}}</p>
+              <p style="display: inline; margin-left: 40px" *ngIf="tempPrice">Tiền: {{tempPrice.toLocaleString('us')}}</p>
             </nz-form-control>
           </nz-form-item>
         </div>

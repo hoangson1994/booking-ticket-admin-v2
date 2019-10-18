@@ -20,19 +20,20 @@
                 '. Chuyến: ' + data.schedule?.voyage?.name +
                 '. Khởi hành: ' + parseDate(data?.schedule?.startTime)
                     }}</td>
-                <td>{{data.finalPrice}}</td>
+                <td>{{data.finalPrice?.toLocaleString()}}</td>
                 <td [class.color-success]="data.status === orderStatus.Active"
-                    [class.color-danger]="data.status === orderStatus.InActive"
+                    [class.color-danger]="data.status === orderStatus.Inactive"
                 >{{data.status === orderStatus.Active ? 'Thành công' : 'Hủy'}}</td>
                 <td>
                     <a nz-popconfirm
                        nz-button nzSize="small" nzType="danger"
                        [nzTitle]="'Bạn thực sự muốn hủy chuyến ?'"
                        (nzOnConfirm)="delete()"
-                       *ngIf="data.status !== orderStatus.InActive"
+                       *ngIf="data?.status !== orderStatus.Inactive"
                     >
                         <i nz-icon [type]="data.isDeleting ? 'loading' : 'delete'"></i>Hủy
                     </a>
+                </td>
             </tr>
             </tbody>
         </nz-table>
@@ -56,11 +57,11 @@
             <tbody>
             <tr *ngFor="let data of data.orderDetails; let i = index">
                 <td>{{i + 1}}</td>
-                <td>{{data.travelFromId}}</td>
-                <td>{{data.travelToId}}</td>
+                <td>{{data.travelFrom.fromName}}</td>
+                <td>{{data.travelTo.toName}}</td>
                 <td>{{data.quantity}}</td>
-                <td>{{(data.originTotalPrice)}}</td>
-                <td>{{(data.totalPrice)}}</td>
+                <td>{{(data.originTotalPrice.toLocaleString())}}</td>
+                <td>{{(data.totalPrice.toLocaleString())}}</td>
             </tr>
             </tbody>
         </nz-table>

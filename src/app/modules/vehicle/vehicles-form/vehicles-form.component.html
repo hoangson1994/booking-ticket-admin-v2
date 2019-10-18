@@ -5,7 +5,7 @@
         <div nz-col [nzMd]="12">
           <ng-container *ngIf="form.get('name') as name">
             <nz-form-item>
-              <nz-form-label><strong>Tên/Số hiệu xe</strong></nz-form-label>
+              <nz-form-label>Tên/Số hiệu xe</nz-form-label>
               <nz-form-control [nzErrorTip]="vehicleNameValidate">
                 <input type="text" nz-input [formControl]="name" class="w-100" placeholder="Nhập tên xe"/>
               </nz-form-control>
@@ -18,7 +18,7 @@
         <div nz-col [nzMd]="12">
           <ng-container *ngIf="form.get('plate') as plate">
             <nz-form-item nz-col [nzMd]="12">
-              <nz-form-label><strong>Biển số xe</strong></nz-form-label>
+              <nz-form-label>Biển số xe</nz-form-label>
               <nz-form-control [nzErrorTip]="plateValidate">
                 <input type="text" nz-input [formControl]="plate" class="w-100" placeholder="Nhập biển số xe"/>
               </nz-form-control>
@@ -31,7 +31,7 @@
         <div nz-col [nzMd]="12">
           <ng-container *ngIf="form.get('color') as color">
             <nz-form-item nz-col [nzMd]="12">
-              <nz-form-label><strong>Màu xe</strong></nz-form-label>
+              <nz-form-label>Màu xe</nz-form-label>
               <nz-form-control [nzErrorTip]="colorValidate">
                 <input type="text"
                        nz-input
@@ -49,7 +49,7 @@
         <div nz-col [nzMd]="12">
           <ng-container *ngIf="form.get('category_id') as category_id">
             <nz-form-item nz-col [nzMd]="12">
-              <nz-form-label><strong>Nhóm xe</strong></nz-form-label>
+              <nz-form-label>Nhóm xe</nz-form-label>
               <nz-form-control [nzErrorTip]="vehicleCtValidate">
                 <app-vehicle-category-selector [formControl]="category_id">
 

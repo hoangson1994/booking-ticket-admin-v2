@@ -1,4 +1,4 @@
-<nz-card nzTitle="Thêm nhân viên">
+<nz-card [nzTitle]="getTitle()">
   <section nz-row nzType="flex" nzJustify="center">
     <div nz-col [nzXXl]="14" [nzXl]="14" [nzLg]="16" [nzMd]="20" [nzSm]="22" [nzXs]="24">
 
@@ -8,7 +8,7 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('name') as name">
               <nz-form-item>
-                <nz-form-label><strong>Tên nhân viên</strong></nz-form-label>
+                <nz-form-label>Tên nhân viên</nz-form-label>
                 <nz-form-control [nzErrorTip]="vehicleNameValidate">
                   <input type="text" nz-input [formControl]="name" class="w-100" placeholder="Nhập tên"/>
                 </nz-form-control>
@@ -22,7 +22,7 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('email') as email">
               <nz-form-item>
-                <nz-form-label><strong>Địa chỉ email</strong></nz-form-label>
+                <nz-form-label>Địa chỉ email</nz-form-label>
                 <nz-form-control [nzErrorTip]="emailValidate">
                   <input type="text" nz-input [formControl]="email" class="w-100" placeholder="Nhập email"/>
                 </nz-form-control>
@@ -36,7 +36,7 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('password') as password">
               <nz-form-item>
-                <nz-form-label><strong>Mật khẩu</strong></nz-form-label>
+                <nz-form-label>Mật khẩu</nz-form-label>
                 <nz-form-control [nzErrorTip]="passwordValidate">
                   <input type="password" nz-input [formControl]="password" class="w-100" placeholder="Nhập mật khẩu"/>
                 </nz-form-control>
@@ -50,7 +50,7 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('phoneNumber') as phoneNumber">
               <nz-form-item>
-                <nz-form-label><strong>Số điện thoại</strong></nz-form-label>
+                <nz-form-label>Số điện thoại</nz-form-label>
                 <nz-form-control [nzErrorTip]="phoneNumberValidate">
                   <input type="text" nz-input [formControl]="phoneNumber" class="w-100"
                          placeholder="Nhập số điện thoại"/>
@@ -65,7 +65,7 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('address') as address">
               <nz-form-item>
-                <nz-form-label><strong>Địa chỉ</strong></nz-form-label>
+                <nz-form-label>Địa chỉ</nz-form-label>
                 <nz-form-control [nzErrorTip]="addressValidate">
                   <input type="text" nz-input [formControl]="address" class="w-100" placeholder="Nhập địa chỉ"/>
                 </nz-form-control>
@@ -79,9 +79,9 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('birthday') as birthday">
               <nz-form-item>
-                <nz-form-label><strong>Sinh nhật</strong></nz-form-label>
+                <nz-form-label>Sinh nhật</nz-form-label>
                 <nz-form-control [nzErrorTip]="birthdayValidate">
-                  <app-custom-datepicker [dateControl]="birthday"></app-custom-datepicker>
+                  <app-custom-datepicker [dateControl]="birthday" [dateInput]="data.birthday"></app-custom-datepicker>
                 </nz-form-control>
                 <ng-template #birthdayValidate>
                   Hãy nhập sinh nhật
@@ -93,23 +93,22 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('gender') as gender">
               <nz-form-item>
-                <nz-form-label><strong>Giới tính</strong></nz-form-label>
+                <nz-form-label>Giới tính</nz-form-label>
                 <nz-form-control [nzErrorTip]="genderValidate">
                   <nz-select
-                    style="width: 200px;"
-                    nzShowSearch
+                    class="w-100"
                     nzAllowClear
                     [formControl]="gender"
                     nzPlaceHolder="Chọn giới tính"
                     [(ngModel)]="selectedValue"
                   >
-                    <nz-option nzLabel="Male" nzValue="1"></nz-option>
-                    <nz-option nzLabel="Female" nzValue="2"></nz-option>
-                    <nz-option nzLabel="Other" nzValue="3"></nz-option>
+                    <nz-option nzLabel="Nam" nzValue="1"></nz-option>
+                    <nz-option nzLabel="Nữ" nzValue="2"></nz-option>
+                    <nz-option nzLabel="Khác" nzValue="3"></nz-option>
                   </nz-select>
                 </nz-form-control>
                 <ng-template #genderValidate>
-                  Hãy nhập số điện thoại
+                  Hãy chọn giới tính
                 </ng-template>
               </nz-form-item>
             </ng-container>
@@ -117,12 +116,12 @@
           <div nz-col [nzMd]="12">
             <ng-container *ngIf="form.get('avatar') as avatar">
               <nz-form-item>
-                <nz-form-label><strong>Avatar</strong></nz-form-label>
+                <nz-form-label>Avatar</nz-form-label>
                 <nz-form-control [nzErrorTip]="avatarValidate">
                   <input type="text" nz-input [formControl]="avatar" class="w-100" placeholder="Nhập link ảnh"/>
                 </nz-form-control>
                 <ng-template #avatarValidate>
-                  Hãy nhập số điện thoại
+                  Hãy nhập avatar
                 </ng-template>
               </nz-form-item>
             </ng-container>

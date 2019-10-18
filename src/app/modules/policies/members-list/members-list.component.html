@@ -1,0 +1,68 @@
+<nz-spin [nzSpinning]="isLoading">
+    <nz-card>
+        <section nz-row nzType="flex" nzJustify="center" nzGutter="8">
+            <div nz-col [nzMd]="10" [nzSm]="11" [nzXs]="24" class="mb-4">
+                <button nz-button nzType="primary" class="w-100" (click)="addUserModalVisible = true">
+                    <i nz-icon type="plus"></i> Thêm thành viên
+                </button>
+            </div>
+
+            <div nz-col [nzMd]="20" [nzSm]="22" [nzXs]="24">
+                <nz-table [nzShowPagination]="false"
+                          [nzScroll]="{x: '800px'}"
+                          *ngIf="datas"
+                          nzSize="small"
+                          class=""
+                          [nzData]="datas">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Email</th>
+                        <th>Tên</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let data of datas; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{data.email}}</td>
+                        <td>{{data.name}}</td>
+                        <td>
+                            <a nz-button
+                               nzType="danger"
+                               nz-popconfirm
+                               nzTitle="Bạn chắc chắn muốn loại nhân viên này khỏi nhóm quyền?"
+                               (nzOnConfirm)="deleteUser(i)"
+                            >
+                                <i nz-icon [type]="data.isDeleting ? 'loading' : 'delete'"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </section>
+    </nz-card>
+</nz-spin>
+
+
+<nz-modal [(nzVisible)]="addUserModalVisible"
+          (nzOnCancel)="addUserModalVisible = false"
+          nzTitle="Thêm thành viên vào nhóm"
+          [nzFooter]="addUserModalFooter"
+>
+    <ng-template #addUserModalFooter>
+        <button nz-button (click)="addUserModalVisible = false">Đóng</button>
+    </ng-template>
+
+    <app-user-selector [(ngModel)]="selectedUser"
+    ></app-user-selector>
+
+    <button nz-button nzType="primary"
+            [disabled]="!selectedUser"
+            [nzLoading]="isAddingUser"
+            (click)="addUser(selectedUser)"
+            class="mt-2">
+        <i nz-icon type="save"></i> Lưu
+    </button>
+</nz-modal>

@@ -1,3 +1,5 @@
+import {IVehicle} from './vehicle.interface';
+
 export interface IVehicleCategory {
   id: number;
   name: string;
@@ -7,6 +9,7 @@ export interface IVehicleCategory {
   updated_at: string;
   status: VehicleCategoryStatus;
   isDeleting: boolean;
+  vehicles: IVehicle[];
 }
 
 export enum VehicleCategoryStatus {

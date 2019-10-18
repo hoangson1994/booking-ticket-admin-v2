@@ -17,10 +17,13 @@ import {SchedulesFormComponent} from './modules/schedules/schedules-form/schedul
 import {ScheduleListComponent} from './modules/schedules/schedule-list/schedule-list.component';
 import {OrderListComponent} from './modules/order/order-list/order-list.component';
 import {OrderCreateComponent} from './modules/order/order-create/order-create.component';
-import {ERouters} from './resources/static.resource';
+import {ERouters, Roles} from './resources/static.resource';
 import {CustomerTypeFormComponent} from './modules/customer-types/customer-type-form/customer-type-form.component';
 import {CustomerTypesListComponent} from './modules/customer-types/customer-types-list/customer-types-list.component';
 import {OrderDetailComponent} from './modules/order/order-detail/order-detail.component';
+import {PolicyFormComponent} from './modules/policies/policy-form/policy-form.component';
+import {PolicyEditFormComponent} from './modules/policies/policy-edit-form/policy-edit-form.component';
+import {PoliciesListComponent} from './modules/policies/policies-list/policies-list.component';
 
 /**
  * - Router group để side bar có thể import và tự động điều chỉnh các phần tử.
@@ -64,7 +67,10 @@ export const ROUTER_GROUPS = {
         name: 'Đặt chuyến cho khách',
         path: 'order',
         canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        data: {
+           role: Roles.ROLE_MANAGER_ORDER
+        },
+        // canActivateChild: [AuthGuard],
         children: [
             {
                 path: 'list-order',
@@ -81,7 +87,8 @@ export const ROUTER_GROUPS = {
                 data: {
                     name: 'Đặt chuyến',
                     icon: 'plus',
-                    display: true
+                    display: true,
+                    // role: Roles.ROLE_MANAGER_ORDER
                 }
             },
             {
@@ -90,105 +97,61 @@ export const ROUTER_GROUPS = {
                 data: {
                     name: 'Chi tiết chuyến',
                     icon: 'plus',
-                    display: false
+                    display: false,
+                    // role: Roles.ROLE_MANAGER_ORDER
                 }
             }
 
         ]
     },
-    VEHICLE_GROUP: {
-        name: 'Quản lí xe',
-        path: 'vehicles',
+    SCHEDULE_GROUP: {
+        name: 'Quản lý lich',
+        path: 'schedules',
         canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        data: {
+            role: Roles.ROLE_MANAGER_SCHEDULE
+        },
+        // canActivateChild: [AuthGuard],
         children: [
             {
-                path: 'edit-vehicle-category/:id',
-                component: VehicleCategoryFormComponent,
+                path: 'create-schedule',
+                component: SchedulesFormComponent,
                 data: {
-                    name: 'Sửa nhóm xe',
-                    icon: '',
-                    display: false
-                }
-            },
-            {
-                path: 'vehicle-category-list',
-                component: VehicleCategoryListComponent,
-                data: {
-                    name: 'Danh sách nhóm xe',
-                    icon: 'unordered-list',
-                    display: true
-                }
-            },
-            {
-                path: 'vehicle-category-form',
-                component: VehicleCategoryFormComponent,
-                data: {
-                    name: 'Thêm nhóm xe',
                     icon: 'plus',
-                    display: true
+                    display: true,
+                    name: 'Thêm lịch',
+                    // role: Roles.ROLE_MANAGER_SCHEDULE
                 }
             },
             {
-                path: 'vehicle-list',
-                component: VehiclesListComponent,
+                path: 'edit-schedule',
+                component: SchedulesFormComponent,
                 data: {
-                    name: 'Danh sách xe',
-                    icon: 'unordered-list',
-                    display: true
-                }
-            },
-            {
-                path: 'vehicle-form',
-                component: VehiclesFormComponent,
-                data: {
-                    name: 'Thêm xe',
                     icon: 'plus',
-                    display: true
+                    display: false,
+                    name: 'Tạo lịch',
+                    // role: Roles.ROLE_MANAGER_SCHEDULE
                 }
             },
             {
-                path: 'edit-vehicle/:id',
-                component: VehiclesFormComponent,
+                path: 'list-schedule',
+                component: ScheduleListComponent,
                 data: {
-                    name: 'Sửa xe',
-                    icon: '',
-                    display: false
+                    icon: 'unordered-list',
+                    name: 'Danh sách lịch',
+                    display: true
                 }
             }
-        ] as Routes
-    },
-    VOYAGE_GROUP: {
-        name: 'Quản lí tuyến đường',
-        path: 'voyages',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
-        children: [
-            {
-                path: 'create',
-                component: VoyageFormComponent,
-                data: {
-                    name: 'Thêm tuyến đường',
-                    icon: 'plus',
-                    display: true
-                }
-            },
-            {
-                path: 'list',
-                component: VoyagesListComponent,
-                data: {
-                    name: 'Danh sách tuyến đường',
-                    icon: 'unordered-list',
-                    display: true
-                }
-            },
         ] as Routes
     },
     SCHEDULE_TEMPLATE_GROUP: {
         name: 'Quản lí mẫu lịch',
         path: 'schedule-templates',
         canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        data: {
+            role: Roles.ROLE_MANAGER_SCHEDULE_TEMPLATE
+        },
+        // canActivateChild: [AuthGuard],
         children: [
             {
                 path: 'create',
@@ -196,7 +159,8 @@ export const ROUTER_GROUPS = {
                 data: {
                     name: 'Thêm mẫu lịch',
                     icon: 'plus',
-                    display: true
+                    display: true,
+                    // role: Roles.ROLE_MANAGER_SCHEDULE_TEMPLATE
                 }
             },
             {
@@ -214,16 +178,119 @@ export const ROUTER_GROUPS = {
                 data: {
                     name: 'Chỉnh sửa mẫu lịch',
                     icon: 'unordered-list',
-                    display: false
+                    display: false,
+                    // role: Roles.ROLE_MANAGER_SCHEDULE_TEMPLATE
+                }
+            },
+        ] as Routes
+    },
+    VEHICLE_GROUP: {
+        name: 'Quản lí xe',
+        path: 'vehicles',
+        canActivate: [AuthGuard],
+        data: {
+            role: Roles.ROLE_MANAGER_VEHICLE
+        },
+        // canActivateChild: [AuthGuard],
+        children: [
+            {
+                path: 'edit-vehicle-category/:id',
+                component: VehicleCategoryFormComponent,
+                data: {
+                    name: 'Sửa nhóm xe',
+                    icon: '',
+                    display: false,
+                    // role: Roles.ROLE_MANAGER_VEHICLE
+                }
+            },
+            {
+                path: 'vehicle-category-list',
+                component: VehicleCategoryListComponent,
+                data: {
+                    name: 'Danh sách nhóm xe',
+                    icon: 'unordered-list',
+                    display: true
+                }
+            },
+            {
+                path: 'vehicle-category-form',
+                component: VehicleCategoryFormComponent,
+                data: {
+                    name: 'Thêm nhóm xe',
+                    icon: 'plus',
+                    display: true,
+                    // role: Roles.ROLE_MANAGER_VEHICLE
+                }
+            },
+            {
+                path: 'vehicle-list',
+                component: VehiclesListComponent,
+                data: {
+                    name: 'Danh sách xe',
+                    icon: 'unordered-list',
+                    display: true
+                }
+            },
+            {
+                path: 'vehicle-form',
+                component: VehiclesFormComponent,
+                data: {
+                    name: 'Thêm xe',
+                    icon: 'plus',
+                    display: true,
+                    // role: Roles.ROLE_MANAGER_VEHICLE
+                }
+            },
+            {
+                path: 'edit-vehicle/:id',
+                component: VehiclesFormComponent,
+                data: {
+                    name: 'Sửa xe',
+                    icon: '',
+                    display: false,
+                    // role: Roles.ROLE_MANAGER_VEHICLE
+                }
+            }
+        ] as Routes
+    },
+    VOYAGE_GROUP: {
+        name: 'Quản lí tuyến đường',
+        path: 'voyages',
+        canActivate: [AuthGuard],
+        data: {
+            role: Roles.ROLE_MANAGER_VOYAGE
+        },
+        // canActivateChild: [AuthGuard],
+        children: [
+            {
+                path: 'create',
+                component: VoyageFormComponent,
+                data: {
+                    name: 'Thêm tuyến đường',
+                    icon: 'plus',
+                    display: true,
+                    role: Roles.ROLE_MANAGER_VOYAGE
+                }
+            },
+            {
+                path: 'list',
+                component: VoyagesListComponent,
+                data: {
+                    name: 'Danh sách tuyến đường',
+                    icon: 'unordered-list',
+                    display: true
                 }
             },
         ] as Routes
     },
     USER_GROUP: {
-        name: 'Quản lý người dùng',
+        name: 'Quản lý nhân viên',
         path: 'user',
         canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        data: {
+            role: Roles.ROLE_MANAGER_USER
+        },
+        // canActivateChild: [AuthGuard],
         children: [
             {
                 path: 'create-user',
@@ -231,7 +298,8 @@ export const ROUTER_GROUPS = {
                 data: {
                     name: 'Thêm nhân viên',
                     icon: 'plus',
-                    display: true
+                    display: true,
+                    // role: Roles.ROLE_MANAGER_USER
                 }
             },
             {
@@ -244,47 +312,13 @@ export const ROUTER_GROUPS = {
                 }
             },
             {
-                path: 'edit-user/:id',
+                path: 'edit-user',
                 component: UserFormComponent,
                 data: {
                     name: 'Sửa nhân viên',
                     icon: 'unordered-list',
-                    display: false
-                }
-            }
-        ] as Routes
-    },
-    SCHEDULE_GROUP: {
-        name: 'Quản lý lich',
-        path: 'schedules',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
-        children: [
-            {
-                path: 'create-schedule',
-                component: SchedulesFormComponent,
-                data: {
-                    icon: 'plus',
-                    display: true,
-                    name: 'Tạo lịch'
-                }
-            },
-            {
-                path: 'edit-schedule',
-                component: SchedulesFormComponent,
-                data: {
-                    icon: 'plus',
                     display: false,
-                    name: 'Tạo lịch'
-                }
-            },
-            {
-                path: 'list-schedule',
-                component: ScheduleListComponent,
-                data: {
-                    icon: 'unordered-list',
-                    name: 'Danh sách lịch',
-                    display: true
+                    // role: Roles.ROLE_MANAGER_USER
                 }
             }
         ] as Routes
@@ -293,7 +327,10 @@ export const ROUTER_GROUPS = {
         name: 'Quản lí kiểu khách hàng',
         path: ERouters.customer_types,
         canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        data: {
+            role: Roles.ROLE_MANAGER_CUSTOMER_TYPE
+        },
+        // canActivateChild: [AuthGuard],
         children: [
             {
                 path: 'create',
@@ -301,7 +338,8 @@ export const ROUTER_GROUPS = {
                 data: {
                     name: 'Thêm kiểu khách hàng',
                     icon: 'plus',
-                    display: true
+                    display: true,
+                    // role: Roles.ROLE_MANAGER_CUSTOMER_TYPE
                 }
             },
             {
@@ -319,9 +357,50 @@ export const ROUTER_GROUPS = {
                 data: {
                     name: 'Chỉnh sửa kiểu khách hàng',
                     icon: 'unordered-list',
-                    display: false
+                    display: false,
+                    // role: Roles.ROLE_MANAGER_CUSTOMER_TYPE
                 }
             },
+        ] as Routes
+    },
+    POLICY_GROUP: {
+        name: 'Quản lý quyền',
+        path: 'policies',
+        canActivate: [AuthGuard],
+        data: {
+            role: Roles.ROLE_MANAGER_POLICY
+        },
+        // canActivateChild: [AuthGuard],
+        children: [
+            {
+                path: 'create',
+                component: PolicyFormComponent,
+                data: {
+                    icon: 'plus',
+                    display: true,
+                    name: 'Thêm quyền',
+                    // role: Roles.ROLE_MANAGER_POLICY
+                }
+            },
+            {
+                path: 'edit',
+                component: PolicyEditFormComponent,
+                data: {
+                    icon: 'plus',
+                    display: false,
+                    name: 'Sửa quyền',
+                    // role: Roles.ROLE_MANAGER_POLICY
+                }
+            },
+            {
+                path: 'list',
+                component: PoliciesListComponent,
+                data: {
+                    icon: 'unordered-list',
+                    name: 'Danh sách quyền',
+                    display: true
+                }
+            }
         ] as Routes
     },
 };

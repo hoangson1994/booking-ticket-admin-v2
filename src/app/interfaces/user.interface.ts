@@ -1,3 +1,5 @@
+import {IPolicy} from './policy.interface';
+
 export interface IUser {
   id: number;
   email: string;
@@ -5,12 +7,14 @@ export interface IUser {
   name: string;
   phoneNumber: string;
   address: string;
-  birthday: number;
+  birthday: any;
+  gender: any;
   created_at: string;
   updated_at: string;
   status: number;
   accessToken: string;
   isDeleting: boolean;
+  policy: IPolicy;
 }
 
 export enum UserStatus {

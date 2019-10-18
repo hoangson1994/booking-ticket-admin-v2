@@ -52,7 +52,7 @@ export class ScheduleListComponent implements OnInit {
             .subscribe({
                 next: value => {
                     this.datas.splice(index, 1);
-                    this.notify.success('Thành công', 'Xóa nhân viên thành công');
+                    this.notify.success('Thành công', 'Xóa lịch thành công');
                 },
                 error: err => {
                     this.helper.handleError(err);

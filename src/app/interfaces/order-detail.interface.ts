@@ -8,7 +8,9 @@ export interface IOrderDetail {
   vehicleCategoryId: IVehicleCategory;
   customerTypeId: ICustomer;
   travelFromId: number;
+  travelFrom: any;
   travelToId: number;
+  travelTo: any;
   unitPrice: string;
   originTotalPrice: string;
   totalPrice: string;

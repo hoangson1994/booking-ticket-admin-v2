@@ -20,6 +20,8 @@ import {ScheduleSelectorComponent} from './selector/schedule-selector/schedule-s
 import {TravelFromSelectorComponent} from './selector/travel-from-selector/travel-from-selector.component';
 import {TravelToSelectorComponent} from './selector/travel-to-selector/travel-to-selector.component';
 import { CustomerTypeSelectorComponent } from './selector/customer-type-selector/customer-type-selector.component';
+import { CustomBarChartComponent } from './components/custom-bar-chart/custom-bar-chart.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
     imports: [
@@ -29,7 +31,8 @@ import { CustomerTypeSelectorComponent } from './selector/customer-type-selector
         ReactiveFormsModule,
         NgZorroAntdModule,
         BrowserModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        NgxChartsModule
     ],
     declarations: [
         TranslatePipe,
@@ -46,7 +49,8 @@ import { CustomerTypeSelectorComponent } from './selector/customer-type-selector
         ScheduleSelectorComponent,
         TravelFromSelectorComponent,
         TravelToSelectorComponent,
-        CustomerTypeSelectorComponent
+        CustomerTypeSelectorComponent,
+        CustomBarChartComponent
     ],
     exports: [
         CommonModule,
@@ -70,7 +74,8 @@ import { CustomerTypeSelectorComponent } from './selector/customer-type-selector
         ScheduleSelectorComponent,
         TravelFromSelectorComponent,
         TravelToSelectorComponent,
-        CustomerTypeSelectorComponent
+        CustomerTypeSelectorComponent,
+        CustomBarChartComponent
     ]
 })
 export class SharedModule {

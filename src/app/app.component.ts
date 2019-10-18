@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   constructor(
       private router: Router,
       private title: Title,
-      private authService: AuthService
+      public authService: AuthService
   ) { }
   ngOnInit(): void {
     this.onResize();

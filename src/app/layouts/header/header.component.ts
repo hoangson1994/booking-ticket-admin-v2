@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {AuthService} from '../../modules/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class HeaderComponent implements OnInit {
   @Output() clickMenuButton: EventEmitter<any>;
   headerAction = 1;
-  constructor() {
+  constructor(
+      public authService: AuthService,
+  ) {
     this.clickMenuButton = new EventEmitter();
   }
 

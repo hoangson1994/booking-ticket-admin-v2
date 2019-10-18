@@ -17,6 +17,8 @@ import {UserModule} from './modules/user/user.module';
 import {ScheduleModule} from './modules/schedules/schedule.module';
 import {OrderModule} from './modules/order/order.module';
 import {CustomerTypesModule} from './modules/customer-types/customer-types.module';
+import {PoliciesModule} from './modules/policies/policies.module';
+import { AnalysisSummaryComponent } from './components/analysis-summary/analysis-summary.component';
 
 registerLocaleData(vi);
 
@@ -26,7 +28,8 @@ registerLocaleData(vi);
         HeaderComponent,
         SidebarComponent,
         DashboardComponent,
-        LoginComponent
+        LoginComponent,
+        AnalysisSummaryComponent
     ],
     imports: [
         CustomerTypesModule,
@@ -36,6 +39,7 @@ registerLocaleData(vi);
         VoyagesModule,
         ScheduleTemplatesModule,
         UserModule,
+        PoliciesModule,
         SharedModule,
         AppRoutingModule
     ],

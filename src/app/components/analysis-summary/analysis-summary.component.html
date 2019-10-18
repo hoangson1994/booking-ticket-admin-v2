@@ -1,0 +1,10 @@
+<nz-card>
+    <nz-statistic
+            [nzValue]="inputData.value?.toLocaleString('us')"
+            [nzTitle]="inputData.name"
+            [nzPrefix]="prefixTplOne"
+            [nzValueStyle]="{ color: 'rgba(0,0,0,0.7)' }"
+    >
+    </nz-statistic>
+    <ng-template #prefixTplOne><i nz-icon [nzType]="icon"></i></ng-template>
+</nz-card>

@@ -11,6 +11,8 @@ import {finalize} from 'rxjs/operators';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import * as moment from 'moment';
 import {ISchedule} from '../../../interfaces/schedule.interface';
+import {Observable} from 'rxjs';
+import {IUser} from '../../../interfaces/user.interface';
 
 @Component({
     selector: 'app-schedules-form',
@@ -44,8 +46,18 @@ export class SchedulesFormComponent implements OnInit {
         this.selectedSchedule = {} as ISchedule;
         this.id = this.activatedRoute.snapshot.queryParams.id;
         if (this.id !== undefined) {
-            this.isSubmit = false;
-            this.selectSchedule(this.id);
+            this.scheduleService.singleSchedule(this.id)
+                .pipe(finalize(() => this.isPost = false))
+                .subscribe({
+                    next: value => {
+                        this.selectedSchedule = value;
+                        this.selectedSchedule.scheduleDate = this.selectedSchedule.startTime;
+                        this.helper.setValueToForm(this.form, this.selectedSchedule, true);
+                    },
+                    error: err => {
+                        this.helper.handleError(err);
+                    }
+                });
         }
     }
 
@@ -55,12 +67,17 @@ export class SchedulesFormComponent implements OnInit {
             return;
         }
         this.isPost = true;
-        this.scheduleService
-            .createSchedule(this.form.value)
+        let observable: Observable<ISchedule> = this.scheduleService.createSchedule(this.form.value);
+        if (Object.keys(this.selectedSchedule).length > 0) {
+            observable = this.scheduleService.editSchedule(this.selectedSchedule.id, this.form.value);
+        }
+        observable
             .pipe(finalize(() => this.isSubmit = false))
             .subscribe({
                 next: value => {
-                    this.notify.success('Thành công', 'Tạo lịch thành công');
+                    this.notify.success('Thành công',
+                        Object.keys(this.selectedSchedule).length > 0 ? 'Sửa lịch thành công' : 'Tạo lịch thành công');
+                    this.router.navigate(['/schedules/list-schedule']);
                 },
                 error: err => {
                     this.helper.handleError(err);
@@ -69,18 +86,7 @@ export class SchedulesFormComponent implements OnInit {
     }
 
     private selectSchedule(id) {
-        this.scheduleService.singleSchedule(id)
-            .pipe(finalize(() => this.isPost = false))
-            .subscribe({
-                next: value => {
-                    this.selectedSchedule = value;
-                    this.helper.setValueToForm(this.form, value);
-                    console.log(value);
-                },
-                error: err => {
-                    this.helper.handleError(err);
-                }
-            });
+
     }
 
     onEdit() {
@@ -91,11 +97,18 @@ export class SchedulesFormComponent implements OnInit {
             .subscribe({
                 next: value => {
                     this.notify.success('Thành công', 'Sửa lịch thành công');
-                    // this.router.navigate(['/vehicles/vehicle-list']);
-                },
+                    this.router.navigate(['/schedules/list-schedule']);                },
                 error: err => {
                     this.helper.handleError(err);
                 }
             });
+    }
+
+    getTitle() {
+        let title = 'Thêm lịch';
+        if (Object.keys(this.selectedSchedule).length > 0) {
+            title = 'Sửa lịch';
+        }
+        return title;
     }
 }

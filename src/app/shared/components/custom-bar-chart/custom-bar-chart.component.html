@@ -1,0 +1,25 @@
+<nz-card [nzTitle]="title">
+    <div nz-row nzGutter="16" class="mb-3">
+        <div nz-col [nzXs]="20">
+            <span>Tổng cộng </span> <b>{{getTotal()}}</b>
+        </div>
+    </div>
+    <div style="display: grid;">
+        <!--(select)="onSelect($event)"-->
+        <ngx-charts-bar-vertical
+                *ngIf="datas"
+                [scheme]="colorScheme"
+                [results]="datas"
+                [legend]="showLegend"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel"
+        >
+
+        </ngx-charts-bar-vertical>
+    </div>
+</nz-card>

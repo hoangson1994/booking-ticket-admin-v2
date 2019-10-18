@@ -75,6 +75,7 @@ export class VehicleCategoryFormComponent implements OnInit {
         {
           next: val => {
             this.notify.success('Thành công', 'Tạo nhóm xe thành công');
+            this.router.navigate(['/vehicles/vehicle-category-list']);
           },
           error: err => {
             this.helper.handleError(err);

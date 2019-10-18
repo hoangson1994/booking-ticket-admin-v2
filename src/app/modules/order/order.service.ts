@@ -55,6 +55,11 @@ export class OrderService {
             .pipe(map(({datas}) => datas));
     }
 
+    searchOrder(params) {
+        return this.http.get<{ datas: IOrder[] }>(`${API_URL}orders/search`, {headers: this.helper.getAuth(), params})
+            .pipe(map(({datas}) => datas));
+    }
+
     calculateOrder(value) {
         return this.http.post<{ data: any }>(`${API_URL}orders/calculate`, value, {headers: this.helper.getAuth()});
     }

@@ -38,13 +38,13 @@
         <td>
           <a nz-button nzSize="small"
              class="mr-1 mb-1"
-             [routerLink]="['/user/edit-user/',data.id]">
-            <!--             [queryParams]="{id: data.id}"-->
+             [queryParams]="{id: data.id}"
+             [routerLink]="['/', 'user', 'edit-user']">
             <i nz-icon type="edit"></i>Sửa</a>
 
           <a nz-popconfirm
              nz-button nzSize="small" nzType="danger"
-             [nzTitle]="'Bạn chắc chắn muốn xóa banner này?'"
+             [nzTitle]="'Bạn chắc chắn muốn xóa nhân viên này?'"
              (nzOnConfirm)="deleteUser(i)"
              *ngIf="data.status !== userStatus.inactive"
           >

@@ -2,9 +2,9 @@
   <i nz-icon type="menu-unfold" class="nav-phone-icon" theme="outline" (click)="triggerBtn()"></i>
   <section nz-row>
     <div nz-col [nzSm]="24" [nzXs]="24" [nzMd]="7" [nzXl]="5" [nzXXl]="4" class="text-sm-center">
-      <a href="" id="logo">
+      <a href="/" id="logo" style="color: #000c17; font-weight: bolder; font-size: 18px">
         <img alt="logo" src="https://ng.ant.design/assets/img/logo.svg">
-        <img alt="NG-ZORRO" src="https://ng.ant.design/assets/img/zorro.svg">
+        Booking Ticket
       </a>
     </div>
 
@@ -15,11 +15,21 @@
         </nz-input-group>
         <ng-template #prefixTemplate><i nz-icon type="search"></i></ng-template>
       </div>
-      <div class="header-action">
-        <nz-select nzSize="small" [(ngModel)]="headerAction">
-          <nz-option [nzValue]="1" nzLabel="Hoang"></nz-option>
-          <nz-option [nzValue]="2" nzLabel="Logout"></nz-option>
-        </nz-select>
+      <div class="header-action" *ngIf="authService.user">
+        <button nz-button nz-dropdown [nzDropdownMenu]="authDropDown"
+                [nzPlacement]="'bottomRight'"
+                class="header-action-item">
+          <nz-avatar nzIcon="user" [nzSrc]="authService.user?.avatar_url"
+                     nzSize="small"
+          ></nz-avatar> {{authService.user?.email}}
+        </button>
+        <nz-dropdown-menu #authDropDown="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>
+              <a (click)="authService.logout()">Đăng xuất</a>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
       </div>
 
     </div>

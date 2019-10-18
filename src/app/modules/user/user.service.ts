@@ -15,6 +15,7 @@ export class UserService {
   user: IUser;
 
   formControl = {
+    id: [],
     email: [null, [Validators.email, Validators.required]],
     password: [null, [Validators.required]],
     name: [null, [Validators.required]],
@@ -32,7 +33,7 @@ export class UserService {
   }
 
   createUser(value) {
-    return this.http.post<{ data: IVehicle }>(`${API_URL}users/create`,
+    return this.http.post<{ data: IUser }>(`${API_URL}users/create`,
       value, {headers: this.helper.getAuth()}
     ).pipe(
       map(d => d.data)
@@ -48,8 +49,9 @@ export class UserService {
   }
 
   singleUser(id): Observable<IUser> {
-    return this.http.get<{ data: IUser }>(`${API_URL}users/user-data?id=${id}`, {
-      headers: this.helper.getAuth()
+    return this.http.get<{ data: IUser }>(`${API_URL}users/single`, {
+      headers: this.helper.getAuth(),
+      params: {id}
     })
       .pipe(map(({data}) => data));
   }
@@ -61,8 +63,9 @@ export class UserService {
       .pipe(map(({data}) => data));
   }
 
-  editUser(id, value): Observable<IUser> {
-    return this.http.post<{ data: IUser }>(`${API_URL}users/edit?id=${id}`, value, {
+  editUser(value): Observable<IUser> {
+    return this.http.post<{ data: IUser }>(`${API_URL}users/edit`, value, {
+      params: {id: value.id} as any,
       headers: this.helper.getAuth()
     })
       .pipe(map(({data}) => data));

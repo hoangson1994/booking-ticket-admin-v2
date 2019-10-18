@@ -31,7 +31,7 @@ export class CustomerTypeFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.data = {} as ICustomerType;
+        // this.data = {} as ICustomerType;
         if (this.route.snapshot.queryParams && this.route.snapshot.queryParams.id) {
             const id = this.route.snapshot.queryParams.id;
             this.service.single(id)
@@ -54,7 +54,7 @@ export class CustomerTypeFormComponent implements OnInit {
         }
         this.isSaving = true;
         let observable = this.service.create(this.form.value);
-        if (Object.keys(this.data).length > 0) {
+        if (this.data) {
             observable = this.service.edit(this.form.value);
         }
         observable
@@ -62,7 +62,7 @@ export class CustomerTypeFormComponent implements OnInit {
             .subscribe({
                 next: value => {
                     this.notify.success('Thành công',
-                        Object.keys(this.data).length > 0 ? 'Sửa thành công' : 'Thêm thành công');
+                        this.data ? 'Sửa thành công' : 'Thêm thành công');
                     this.router.navigate(['/', ERouters.customer_types, ERouters.list]);
                 },
                 error: err => {

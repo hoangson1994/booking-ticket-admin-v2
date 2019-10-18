@@ -5,7 +5,7 @@
         <div nz-col [nzLg]="24">
           <ng-container *ngIf="form.get('name') as name">
             <nz-form-item>
-              <nz-form-label><strong>Tên nhóm xe</strong></nz-form-label>
+              <nz-form-label>Tên nhóm xe</nz-form-label>
               <nz-form-control [nzErrorTip]="nameValidate">
                 <input type="text" nz-input
                        [formControl]="name"
@@ -22,10 +22,11 @@
         <div nz-col [nzMd]="12">
           <ng-container *ngIf="form.get('seatQuantity') as seatQuantity">
             <nz-form-item>
-              <nz-form-label><strong>Số chỗ ngồi</strong></nz-form-label>
+              <nz-form-label>Số chỗ ngồi</nz-form-label>
               <nz-form-control [nzErrorTip]="seatQuantityValidate">
                 <nz-input-number nz-input
                                  [formControl]="seatQuantity"
+                                 nzPlaceHolder="Số chỗ ngồi"
                                  class="w-100"></nz-input-number>
               </nz-form-control>
               <ng-template #seatQuantityValidate>
@@ -37,9 +38,9 @@
         <div nz-col [nzMd]="12">
           <ng-container *ngIf="form.get('price') as price">
             <nz-form-item>
-              <nz-form-label><strong>Giá (VND/Km)</strong></nz-form-label>
+              <nz-form-label>Giá (VND/Km)</nz-form-label>
               <nz-form-control [nzErrorTip]="priceValidate">
-                <nz-input-number nz-input [formControl]="price" class="w-100"></nz-input-number>
+                <nz-input-number nz-input [formControl]="price" nzPlaceHolder="Giá" class="w-100"></nz-input-number>
               </nz-form-control>
               <ng-template #priceValidate>
                 Hãy nhập giá tiền

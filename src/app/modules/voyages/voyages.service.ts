@@ -53,6 +53,12 @@ export class VoyagesService {
         ).pipe(map(({data}) => data));
     }
 
+    delete(id: number) {
+        return this.http.delete<{data: IVoyage}>(`${API_URL}voyages/${id}`,
+            {headers: this.helper.getAuth()}
+        ).pipe(map(({data}) => data));
+    }
+
     getFromAndToOfVoyage(voyageId: number): any {
         return this.http.get(`${API_URL}voyages/${voyageId}/part`,
             {

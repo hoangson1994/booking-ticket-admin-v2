@@ -1,37 +1,53 @@
-<nz-card nzTitle="Dashboard">
-  <p style="font-size:14px;color:rgba(0, 0, 0, 0.85);margin-bottom:16px;font-weight: 500;">
-    Group title
-  </p>
-  <nz-card nzType="inner" nzTitle="Inner Card Title" [nzExtra]="extraTemplate">
-    <a>Inner Card Content</a>
-  </nz-card>
-  <nz-card nzType="inner" style="margin-top:16px;" nzTitle="Inner Card Title" [nzExtra]="extraTemplate">
-    <a>Inner Card Content</a>
-  </nz-card>
-</nz-card>
-<ng-template #extraTemplate>
-  <a>More</a>
-</ng-template>
-<nz-card nzTitle="Dashboard">
-  <p style="font-size:14px;color:rgba(0, 0, 0, 0.85);margin-bottom:16px;font-weight: 500;">
-    Group title
-  </p>
-  <nz-card nzType="inner" nzTitle="Inner Card Title" [nzExtra]="extraTemplate">
-    <a>Inner Card Content</a>
-  </nz-card>
-  <nz-card nzType="inner" style="margin-top:16px;" nzTitle="Inner Card Title" [nzExtra]="extraTemplate">
-    <a>Inner Card Content</a>
-  </nz-card>
-</nz-card>
-<nz-card nzTitle="Dashboard">
-  <p style="font-size:14px;color:rgba(0, 0, 0, 0.85);margin-bottom:16px;font-weight: 500;">
-    Group title
-  </p>
-  <nz-card nzType="inner" nzTitle="Inner Card Title" [nzExtra]="extraTemplate">
-    <a>Inner Card Content</a>
-  </nz-card>
-  <nz-card nzType="inner" style="margin-top:16px;" nzTitle="Inner Card Title" [nzExtra]="extraTemplate">
-    <a>Inner Card Content</a>
-  </nz-card>
-</nz-card>
+<div nz-row nzGutter="8" class="mb-20">
+  <div nz-col [nzXs]="24" class="card-dashboard">
+    <nz-card>
+      <div nz-row nzGutter="8">
+        <div nz-col [nzXs]="24" [nzSm]="12" class="mb-2">
+          <nz-date-picker class="w-100"
+                          nzClassName="w-100"
+                          nzPlaceHolder="Thời gian bắt đầu"
+                          [(ngModel)]="service.fromTime"
+                          (ngModelChange)="refresh()"
+          >
+          </nz-date-picker>
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="12">
+          <nz-date-picker class="w-100"
+                          nzClassName="w-100"
+                          nzPlaceHolder="Thời gian kết thúc"
+                          [(ngModel)]="service.toTime"
+                          (ngModelChange)="refresh()"
+          >
+          </nz-date-picker>
+        </div>
+      </div>
+    </nz-card>
+  </div>
+</div>
+
+<div nz-row nzGutter="8" class="mb-20">
+  <ng-container *ngIf="service.data && service.data.orderStatistics">
+    <ng-container *ngFor="let data of service.data.orderStatistics">
+      <div nz-col [nzXs]="24" [nzLg]="12" class="card-dashboard">
+        <a (click)="routerLinkOrder(data)">
+          <app-analysis-summary [inputData]="getSummaryInput(data)" [icon]="iconUser">
+
+          </app-analysis-summary>
+        </a>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+
+<div nz-row nzGutter="8">
+  <div nz-col [nzXs]="24" class="card-dashboard">
+    <app-custom-bar-chart xAxisLabel="Thời gian"
+                          yAxisLabel="Doanh thu"
+                          title="Doanh thu"
+                          [datas]="service.revenueChartData"
+    ></app-custom-bar-chart>
+  </div>
+</div>
+
+
 

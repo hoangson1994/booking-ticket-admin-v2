@@ -23,7 +23,7 @@ export interface IOrder {
 
 export enum OrderStatus {
     Active = 1,
-    InActive = -1
+    Inactive = -1
 }
 
 export enum OrderPaidStatus {

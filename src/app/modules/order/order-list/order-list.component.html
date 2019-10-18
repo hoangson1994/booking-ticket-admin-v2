@@ -1,5 +1,18 @@
 <nz-spin [nzSpinning]="isLoading">
     <nz-card>
+
+        <div nz-row nzGutter="6" class="mb-5 mt-5">
+            <div nz-col [nzSm]="24" [nzMd]="12" [nzLg]="6" class="mb-2">
+                <nz-select [nzPlaceHolder]="'Lọc theo trạng thái'"
+                           class="w-100"
+                           [(ngModel)]="params.status"
+                           (ngModelChange)="search()">
+
+                    <nz-option [nzValue]="option.key" [nzLabel]="option.value | translate"
+                               *ngFor="let option of orderStatusOptions"></nz-option>
+                </nz-select>
+            </div>
+        </div>
         <nz-table [nzData]="datas"
                   [nzShowPagination]="false"
                   nzSize="small"
@@ -19,25 +32,23 @@
             <tr *ngFor="let data of datas; let i = index">
                 <td>{{i+1}}</td>
                 <td>
-<!--                    <a [routerLink]="['/' + eRouters.customers, eRouters.edit]"-->
-<!--                       [queryParams]="{id: data.customer_id}"-->
-<!--                    >-->
-<!--                        {{data.customer?.name + ' - ' + data.customer?.phone_number}}-->
-<!--                    </a>-->
                     {{data.customer?.name + ' - ' + data.customer?.phoneNumber}}
                 </td>
                 <td>
-                    <a [routerLink]="['/' + eRouters.schedules, eRouters.edit]"
-                       [queryParams]="{id: data.scheduleId}"
-                    >
-                        <span class="color-warning">{{(data.schedule?.driver?.name || 'K.Lái') }}</span>
-                        &nbsp;| {{data.schedule?.voyage?.name}} |&nbsp;
-                        <span class="color-danger">{{parseDate(data?.schedule?.startTime)}}</span>
-                    </a>
+<!--                    <a [routerLink]="['/' + eRouters.schedules, eRouters.edit]"-->
+<!--                       [queryParams]="{id: data.scheduleId}"-->
+<!--                    >-->
+<!--                        <span class="color-warning">{{(data.schedule?.driver?.name || 'K.Lái') }}</span>-->
+<!--                        &nbsp;| {{data.schedule?.voyage?.name}} |&nbsp;-->
+<!--                        <span class="color-danger">{{parseDate(data?.schedule?.startTime)}}</span>-->
+<!--                    </a>-->
+                    <span class="color-warning">{{(data.schedule?.driver?.name || 'K.Lái') }}</span>
+                    &nbsp;| {{data.schedule?.voyage?.name}} |&nbsp;
+                    <span class="color-danger">{{parseDate(data?.schedule?.startTime)}}</span>
                 </td>
-                <td>{{data.finalPrice}}</td>
+                <td>{{data.finalPrice.toLocaleString()}}</td>
                 <td [class.color-success]="data.status === orderStatus.Active"
-                    [class.color-danger]="data.status === orderStatus.InActive"
+                    [class.color-danger]="data.status === orderStatus.Inactive"
                 >{{data.status === orderStatus.Active ? 'Thành công' : 'Hủy'}}</td>
                 <td>
                     <ng-container>
